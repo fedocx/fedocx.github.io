@@ -4,18 +4,21 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>oracle常用命令 | fedcox</title>
+  <title>oracle 表空间管理 | fedcox</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="查看表空间已经是用的百分比select   a.tablespace_name,a.bytes/1024/1024 “Sum MB”,(a.bytes-b.bytes)/1024/1024   “used MB”,b.bytes/1024/1024 “free MB”,round(((a.bytes-b.bytes)/a.bytes)*100,2) “percent_used”from(selec">
+  <meta name="description" content="查看表空间已经是用的百分比  
+select   a.tablespace_name,a.bytes/1024/1024 &amp;quot;Sum MB&amp;quot;,(a.bytes-b.bytes)/1024/1024   &amp;quot;used MB&amp;quot;,b.bytes/1024/1024 &amp;quot;free MB&amp;quot;,round(((a.bytes-b.bytes)/a.bytes">
 <meta property="og:type" content="article">
-<meta property="og:title" content="oracle常用命令">
-<meta property="og:url" content="http://fedocx.com/2016/02/02/oracle常用命令/index.html">
+<meta property="og:title" content="oracle 表空间管理">
+<meta property="og:url" content="http://fedocx.com/2016/02/02/oracle_tablespacemanage/index.html">
 <meta property="og:site_name" content="fedcox">
-<meta property="og:description" content="查看表空间已经是用的百分比select   a.tablespace_name,a.bytes/1024/1024 “Sum MB”,(a.bytes-b.bytes)/1024/1024   “used MB”,b.bytes/1024/1024 “free MB”,round(((a.bytes-b.bytes)/a.bytes)*100,2) “percent_used”from(selec">
-<meta property="og:updated_time" content="2016-02-02T09:33:42.417Z">
+<meta property="og:description" content="查看表空间已经是用的百分比  
+select   a.tablespace_name,a.bytes/1024/1024 &amp;quot;Sum MB&amp;quot;,(a.bytes-b.bytes)/1024/1024   &amp;quot;used MB&amp;quot;,b.bytes/1024/1024 &amp;quot;free MB&amp;quot;,round(((a.bytes-b.bytes)/a.bytes">
+<meta property="og:updated_time" content="2016-02-03T07:20:47.297Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="oracle常用命令">
-<meta name="twitter:description" content="查看表空间已经是用的百分比select   a.tablespace_name,a.bytes/1024/1024 “Sum MB”,(a.bytes-b.bytes)/1024/1024   “used MB”,b.bytes/1024/1024 “free MB”,round(((a.bytes-b.bytes)/a.bytes)*100,2) “percent_used”from(selec">
+<meta name="twitter:title" content="oracle 表空间管理">
+<meta name="twitter:description" content="查看表空间已经是用的百分比  
+select   a.tablespace_name,a.bytes/1024/1024 &amp;quot;Sum MB&amp;quot;,(a.bytes-b.bytes)/1024/1024   &amp;quot;used MB&amp;quot;,b.bytes/1024/1024 &amp;quot;free MB&amp;quot;,round(((a.bytes-b.bytes)/a.bytes">
   
     <link rel="alternative" href="/atom.xml" title="fedcox" type="application/atom+xml">
   
@@ -201,10 +204,10 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-oracle常用命令" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-oracle_tablespacemanage" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/02/02/oracle常用命令/" class="article-date">
+      <a href="/2016/02/02/oracle_tablespacemanage/" class="article-date">
   	<time datetime="2016-02-01T23:56:29.000Z" itemprop="datePublished">2016-02-02</time>
 </a>
     </div>
@@ -218,7 +221,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      oracle常用命令
+      oracle 表空间管理
     </h1>
   
 
@@ -242,14 +245,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>查看表空间已经是用的百分比<br>select   a.tablespace_name,a.bytes/1024/1024 “Sum MB”,(a.bytes-b.bytes)/1024/1024   “used MB”,b.bytes/1024/1024 “free MB”,round(((a.bytes-b.bytes)/a.bytes)*100,2) “percent_used”<br>from<br>(select tablespace_name,sum(bytes) bytes from dba_data_files group by tablespace_name)   a,<br>(select tablespace_name,sum(bytes) bytes,max(bytes) largest from dba_free_space group by tablespace_name)   b<br>where   a.tablespace_name=b.tablespace_name<br>order   by   ((a.bytes-b.bytes)/a.bytes)   desc </p>
-<p>查看到SYSAUX表空间已使用百分比达到90%以上，现在使用了多少空间，最大可以扩展的空间大小<br>select   file_name,tablespace_name,bytes/1024/1024 “bytes MB”,maxbytes/1024/1024 “maxbytes MB”   from   dba_data_files<br>  where tablespace_name=’SYSAUX’; </p>
-<p>查看 xxx 表空间是否为自动扩展<br>select file_id,file_name,tablespace_name,autoextensible,increment_by from dba_data_files order by file_id desc;</p>
-<p>增加数据文件，扩大表空间<br>alter   tablespace   MLOG_NORM_SPACE<br>add   datafile   ‘/oracle/oms/oradata/mlog/Mlog_Norm_data001.dbf’<br>size   10M   autoextend   on   maxsize   20G </p>
-<p>验证已经增加的数据文件<br>select   file_name,file_id,tablespace_name   from   dba_data_files<br>where   tablespace_name=’MLOG_NORM_SPACE’；</p>
-<p>删除表空间数据文件<br>alter   tablespace   MLOG_NORM_SPACE<br>drop    datafile ‘/oracle/oms/oradata/mlog/Mlog_Norm_data001.dbf’ </p>
-<p>select table_name from dba_tables where tablespace_name = </p>
+        <p>查看表空间已经是用的百分比  </p>
+<pre><code>select   a.tablespace_name,a.bytes/1024/1024 &quot;Sum MB&quot;,(a.bytes-b.bytes)/1024/1024   &quot;used MB&quot;,b.bytes/1024/1024 &quot;free MB&quot;,round(((a.bytes-b.bytes)/a.bytes)*100,2) &quot;percent_used&quot;  
+from  
+(select tablespace_name,sum(bytes) bytes from dba_data_files group by tablespace_name)   a,  
+(select tablespace_name,sum(bytes) bytes,max(bytes) largest from dba_free_space group by tablespace_name)   b  
+where   a.tablespace_name=b.tablespace_name  
+order   by   ((a.bytes-b.bytes)/a.bytes)   desc 
+</code></pre><p>查看到SYSAUX表空间已使用百分比达到90%以上，现在使用了多少空间，最大可以扩展的空间大小  </p>
+<pre><code>select   file_name,tablespace_name,bytes/1024/1024 &quot;bytes MB&quot;,maxbytes/1024/1024 &quot;maxbytes MB&quot;   from   dba_data_files  where tablespace_name=&apos;SYSAUX&apos;; 
+</code></pre><p>查看 xxx 表空间是否为自动扩展  </p>
+<pre><code>select file_id,file_name,tablespace_name,autoextensible,increment_by from dba_data_files order by file_id desc;
+</code></pre><p>增加数据文件，扩大表空间  </p>
+<pre><code>alter   tablespace   MLOG_NORM_SPACE  
+add   datafile   &apos;/oracle/oms/oradata/mlog/Mlog_Norm_data001.dbf&apos;  
+size   10M   autoextend   on   maxsize   20G 
+</code></pre><p>验证已经增加的数据文件  </p>
+<pre><code>select   file_name,file_id,tablespace_name   from   dba_data_files  where   tablespace_name=&apos;MLOG_NORM_SPACE&apos;；
+</code></pre><p>删除表空间数据文件  </p>
+<pre><code>alter   tablespace   MLOG_NORM_SPACE  
+drop    datafile &apos;/oracle/oms/oradata/mlog/Mlog_Norm_data001.dbf&apos; 
 
+
+select table_name from dba_tables where tablespace_name = 
+</code></pre>
       
     </div>
     
@@ -258,11 +277,15 @@
     
 <nav id="article-nav">
   
-  
-    <a href="/2016/02/02/test/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">恭喜配置完成</div>
-      <strong class="article-nav-caption">></strong>
+    <a href="/2016/02/02/test/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          恭喜配置完成
+        
+      </div>
     </a>
+  
   
 </nav>
 
@@ -295,7 +318,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="oracle常用命令" data-title="oracle常用命令" data-url="http://fedocx.com/2016/02/02/oracle常用命令/"></div>
+	<div class="ds-thread" data-thread-key="oracle_tablespacemanage" data-title="oracle 表空间管理" data-url="http://fedocx.com/2016/02/02/oracle_tablespacemanage/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
