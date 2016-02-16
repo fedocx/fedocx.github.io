@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://blog.fedocx.com/2016/02/16/域名配置/index.html">
 <meta property="og:site_name" content="fedocx blog">
 <meta property="og:description" content="博客域名访问当博客创建之后，域名服务器的cname指向了fedocx.github.io之后还是会出现通过blog.fedocx.com访问不了的情况，针对这种情况只需要在域名github里面创建一个CNAME文件，并在此文件中输入blog.fedocx.com即可。但是当下次文章更新之后CNAME文件会被覆盖。我们知道我们提交的文件都会被hexo处理。如何实现每次更新都自动更新cname文件，而">
-<meta property="og:updated_time" content="2016-02-16T08:06:24.997Z">
+<meta property="og:updated_time" content="2016-02-16T08:08:46.836Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="域名配置">
 <meta name="twitter:description" content="博客域名访问当博客创建之后，域名服务器的cname指向了fedocx.github.io之后还是会出现通过blog.fedocx.com访问不了的情况，针对这种情况只需要在域名github里面创建一个CNAME文件，并在此文件中输入blog.fedocx.com即可。但是当下次文章更新之后CNAME文件会被覆盖。我们知道我们提交的文件都会被hexo处理。如何实现每次更新都自动更新cname文件，而">
@@ -87,17 +87,13 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="u535A_u5BA2_u57DF_u540D_u8BBF_u95EE"><a href="#u535A_u5BA2_u57DF_u540D_u8BBF_u95EE" class="headerlink" title="博客域名访问"></a>博客域名访问</h2><p>当博客创建之后，域名服务器的cname指向了fedocx.github.io之后还是会出现通过blog.fedocx.com访问不了的情况，针对这种情况只需要在域名github里面创建一个CNAME文件，并在此文件中输入blog.fedocx.com即可。但是当下次文章更新之后CNAME文件会被覆盖。<br>我们知道我们提交的文件都会被hexo处理。如何实现每次更新都自动更新cname文件，而cname文件不被渲染呢。<br>答案是</p>
-<h3 id="1_u3001_u521B_u5EFACNAME_u6587_u4EF6"><a href="#1_u3001_u521B_u5EFACNAME_u6587_u4EF6" class="headerlink" title="1、创建CNAME文件"></a>1、创建CNAME文件</h3><pre><code>在source文件夹下面创建CNAME文件，并写入blog.fedocx.com
-</code></pre><h3 id="2_u3001_u7F16_u8F91_config-yml"><a href="#2_u3001_u7F16_u8F91_config-yml" class="headerlink" title="2、编辑_config.yml"></a>2、编辑_config.yml</h3><p>找到  </p>
-<pre><code>skip_render:  
-</code></pre><p>修改成  </p>
-<pre><code>skip_render: CNAME  
-</code></pre><p>以后上传就可以自动更新了</p>
+<h3 id="1_u3001_u521B_u5EFACNAME_u6587_u4EF6"><a href="#1_u3001_u521B_u5EFACNAME_u6587_u4EF6" class="headerlink" title="1、创建CNAME文件"></a>1、创建CNAME文件</h3><p>在source文件夹下面创建CNAME文件，并写入<br>    blog.fedocx.com</p>
+<h3 id="2_u3001_u7F16_u8F91_config-yml"><a href="#2_u3001_u7F16_u8F91_config-yml" class="headerlink" title="2、编辑_config.yml"></a>2、编辑_config.yml</h3><p>找到<br>    skip_render:<br>修改成<br>    skip_render: CNAME<br>以后上传就可以自动更新了</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/16/域名配置/" data-id="cikp4lubb0000kepvkju0ewek" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/16/域名配置/" data-id="cikp4oupr0000l5pvc6sfhoi0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客编辑/">博客编辑</a></li></ul>
