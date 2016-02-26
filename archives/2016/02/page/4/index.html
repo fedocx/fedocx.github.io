@@ -3,18 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>博客域名自动更新配置 | fedocx blog</title>
+  <title>Archives: 2016/2 | fedocx blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="博客域名访问当博客创建之后，域名服务器的cname指向了fedocx.github.io之后还是会出现通过blog.fedocx.com访问不了的情况，针对这种情况只需要在域名github里面创建一个CNAME文件，并在此文件中输入blog.fedocx.com即可。但是当下次文章更新之后CNAME文件会被覆盖。我们知道我们提交的文件都会被hexo处理。如何实现每次更新都自动更新cname文件，而">
-<meta property="og:type" content="article">
-<meta property="og:title" content="博客域名自动更新配置">
-<meta property="og:url" content="http://blog.fedocx.com/2016/02/16/博客域名自动更新/index.html">
+  <meta name="description" content="for no work i must  work hard now">
+<meta property="og:type" content="website">
+<meta property="og:title" content="fedocx blog">
+<meta property="og:url" content="http://blog.fedocx.com/archives/2016/02/page/4/index.html">
 <meta property="og:site_name" content="fedocx blog">
-<meta property="og:description" content="博客域名访问当博客创建之后，域名服务器的cname指向了fedocx.github.io之后还是会出现通过blog.fedocx.com访问不了的情况，针对这种情况只需要在域名github里面创建一个CNAME文件，并在此文件中输入blog.fedocx.com即可。但是当下次文章更新之后CNAME文件会被覆盖。我们知道我们提交的文件都会被hexo处理。如何实现每次更新都自动更新cname文件，而">
-<meta property="og:updated_time" content="2016-02-19T03:54:15.371Z">
+<meta property="og:description" content="for no work i must  work hard now">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="博客域名自动更新配置">
-<meta name="twitter:description" content="博客域名访问当博客创建之后，域名服务器的cname指向了fedocx.github.io之后还是会出现通过blog.fedocx.com访问不了的情况，针对这种情况只需要在域名github里面创建一个CNAME文件，并在此文件中输入blog.fedocx.com即可。但是当下次文章更新之后CNAME文件会被覆盖。我们知道我们提交的文件都会被hexo处理。如何实现每次更新都自动更新cname文件，而">
+<meta name="twitter:title" content="fedocx blog">
+<meta name="twitter:description" content="for no work i must  work hard now">
   
     <link rel="alternative" href="/atom.xml" title="fedocx blog" type="application/atom+xml">
   
@@ -64,71 +63,39 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-博客域名自动更新" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/16/博客域名自动更新/" class="article-date">
-  <time datetime="2016-02-16T07:44:35.000Z" itemprop="datePublished">2016-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      博客域名自动更新配置
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2016/02/02/oracle_tablespacemanage/" class="archive-article-date">
+  <time datetime="2016-02-01T23:56:29.000Z" itemprop="datePublished">Feb 2</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/02/02/oracle_tablespacemanage/">oracle 表空间管理</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="u535A_u5BA2_u57DF_u540D_u8BBF_u95EE"><a href="#u535A_u5BA2_u57DF_u540D_u8BBF_u95EE" class="headerlink" title="博客域名访问"></a>博客域名访问</h2><p>当博客创建之后，域名服务器的cname指向了fedocx.github.io之后还是会出现通过blog.fedocx.com访问不了的情况，针对这种情况只需要在域名github里面创建一个CNAME文件，并在此文件中输入blog.fedocx.com即可。但是当下次文章更新之后CNAME文件会被覆盖。<br>我们知道我们提交的文件都会被hexo处理。如何实现每次更新都自动更新cname文件，而cname文件不被渲染呢。<br>答案是</p>
-<h3 id="1_u3001_u521B_u5EFACNAME_u6587_u4EF6"><a href="#1_u3001_u521B_u5EFACNAME_u6587_u4EF6" class="headerlink" title="1、创建CNAME文件"></a>1、创建CNAME文件</h3><p>在source文件夹下面创建CNAME文件，并写入 </p>
-<pre><code>blog.fedocx.com
-</code></pre><h3 id="2_u3001_u7F16_u8F91_config-yml"><a href="#2_u3001_u7F16_u8F91_config-yml" class="headerlink" title="2、编辑_config.yml"></a>2、编辑_config.yml</h3><p>找到  </p>
-<pre><code>skip_render:  
-</code></pre><p>修改成  </p>
-<pre><code>skip_render: CNAME  
-</code></pre><p>以后上传就可以自动更新了</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/16/博客域名自动更新/" data-id="cil2yo63x00037ipvxy4y7w4g" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客编辑/">博客编辑</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2016/02/19/mysql编码/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          mysql编码
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2016/02/16/hexo语法/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">hexo语法</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
+  
+  
+    </div></section>
+  
 </section>
         
           <aside id="sidebar">

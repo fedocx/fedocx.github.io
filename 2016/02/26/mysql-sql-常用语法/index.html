@@ -3,17 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>fedocx blog</title>
+  <title>mysql sql 常用语法 | fedocx blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="for no work i must  work hard now">
-<meta property="og:type" content="website">
-<meta property="og:title" content="fedocx blog">
-<meta property="og:url" content="http://blog.fedocx.com/index.html">
+  <meta name="description" content="mysql unionUNION 用于合并两个或多个 SELECT 语句的结果集，并消去表中任何重复行。UNION 内部的 SELECT 语句必须拥有相同数量的列，列也必须拥有相似的数据类型。 同时，每条 SELECT 语句中的列的顺序必须相同.
+SELECT column_name FROM table1
+UNION
+SELECT column_name FROM table2
+UNION AL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql sql 常用语法">
+<meta property="og:url" content="http://blog.fedocx.com/2016/02/26/mysql-sql-常用语法/index.html">
 <meta property="og:site_name" content="fedocx blog">
-<meta property="og:description" content="for no work i must  work hard now">
+<meta property="og:description" content="mysql unionUNION 用于合并两个或多个 SELECT 语句的结果集，并消去表中任何重复行。UNION 内部的 SELECT 语句必须拥有相同数量的列，列也必须拥有相似的数据类型。 同时，每条 SELECT 语句中的列的顺序必须相同.
+SELECT column_name FROM table1
+UNION
+SELECT column_name FROM table2
+UNION AL">
+<meta property="og:updated_time" content="2016-02-26T03:32:04.859Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fedocx blog">
-<meta name="twitter:description" content="for no work i must  work hard now">
+<meta name="twitter:title" content="mysql sql 常用语法">
+<meta name="twitter:description" content="mysql unionUNION 用于合并两个或多个 SELECT 语句的结果集，并消去表中任何重复行。UNION 内部的 SELECT 语句必须拥有相同数量的列，列也必须拥有相似的数据类型。 同时，每条 SELECT 语句中的列的顺序必须相同.
+SELECT column_name FROM table1
+UNION
+SELECT column_name FROM table2
+UNION AL">
   
     <link rel="alternative" href="/atom.xml" title="fedocx blog" type="application/atom+xml">
   
@@ -63,9 +76,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-mysql-sql-常用语法" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql-sql-常用语法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/02/26/mysql-sql-常用语法/" class="article-date">
   <time datetime="2016-02-26T00:26:22.000Z" itemprop="datePublished">2016-02-26</time>
@@ -78,8 +89,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/26/mysql-sql-常用语法/">mysql sql 常用语法</a>
+    <h1 class="article-title" itemprop="name">
+      mysql sql 常用语法
     </h1>
   
 
@@ -157,111 +168,20 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-mysqlhotcopy" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/23/mysqlhotcopy/" class="article-date">
-  <time datetime="2016-02-23T06:22:19.000Z" itemprop="datePublished">2016-02-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/23/mysqlhotcopy/">mysqlhotcopy</a>
-    </h1>
+    <a href="/2016/02/23/mysqlhotcopy/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mysqlhotcopy</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天有空尝试了一下MYSQLHOTCOPY这个快速热备MYISAM引擎的工具。<br>(本文是针对单个服务器的情况，以后将会加入多服务器相关操作)<br>他和MYSQLDUMP的比较：<br>1、前者是一个快速文件意义上的COPY，后者是一个数据库端的SQL语句集合。<br>2、前者只能运行在数据库目录所在的机器上，后者可以用在远程客户端。<br>3、相同的地方都是在线执行LOCK TABLES 以及 UNLOCK TABLES<br>4、前者恢复只需要COPY备份文件到源目录覆盖即可，后者需要倒入SQL文件到原来库中。(source 或者.或者 mysql &lt; 备份文件)<br>用MYSQLHOTCOPY备份的步骤：<br>1、有没有PERL-DBD模块安装<br>我的机器上：<br>[root@localhost data]# rpm -qa |grep perl-DBD | grep MySQL</p>
-<p>perl-DBD-MySQL-3.0007-1.fc6<br>2、在数据库段分配一个专门用于备份的用户<br>mysql&gt; grant select,reload,lock tables on <em>.</em> to ‘hotcopyer’@’localhost’ identified by ‘123456’;<br>Query OK, 0 rows affected (0.00 sec)</p>
-<p>mysql&gt; flush privileges;<br>Query OK, 0 rows affected (0.00 sec)</p>
-<p>3、在/etc/my.cnf或者登陆用户的个人主文件.my.cnf里面添加<br>[mysqlhotcopy]<br>interactive-timeout<br>user=hotcopyer<br>password=123456<br>port=3306<br>4、开始备份。<br>[root@localhost ~]# mysqlhotcopy t_girl t_girl_new</p>
-<p>Locked 4 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>id</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 22 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 4 tables (22 files) in 5 seconds (5 seconds overall).</p>
-<p>备份后的目录：<br>[root@localhost data]# du -h | grep t_girl</p>
-<p>213M ./t_girl<br>213M ./t_girl_copy<br>[root@localhost ~]#</p>
-<p>5、MYSQLHOTCOPY用法详解。<br>1)、mysqlhotcopy 原数据库名，新数据库名<br>[root@localhost ~]# mysqlhotcopy t_girl t_girl_new</p>
-<p>Locked 4 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>id</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 22 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 4 tables (22 files) in 5 seconds (5 seconds overall).<br>2)、mysqlhotcopy 原数据库名，备份的目录<br>[root@localhost ~]# mysqlhotcopy t_girl /tmp/</p>
-<p>Locked 4 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>id</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 22 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 4 tables (22 files) in 6 seconds (6 seconds overall).<br>3)、对单个表支持正则表达式<br>(除了id 表外)<br>[root@localhost data]# mysqlhotcopy t_girl./~id/</p>
-<p>Using copy suffix ‘_copy’<br>Locked 3 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 19 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 3 tables (19 files) in 6 seconds (6 seconds overall).<br>[root@localhost data]#</p>
-<p>4)、可以把记录写到专门的表中。具体察看帮助。<br>perldoc mysqlhostcopy</p>
-<p>mysql&gt; create database hotcopy;<br>Query OK, 1 row affected (0.03 sec)<br>mysql&gt; use hotcopy<br>Database changed<br>mysql&gt; create table checkpoint(time_stamp timestamp not null,src varchar(32),dest varchar(60), msg varchar(255));<br>Query OK, 0 rows affected (0.01 sec)<br>同时记得给hotcopyer用户权限。<br>mysql&gt; grant insert on hotcopy.checkpoint to hotcopyer@’localhost’;<br>Query OK, 0 rows affected (0.00 sec)</p>
-<p>mysql&gt; flush privileges;<br>Query OK, 0 rows affected (0.00 sec)</p>
-<p>mysql&gt; \q<br>Bye<br>重复第三步的操作</p>
-<p>[root@localhost ~]# mysqlhotcopy t_girl./~id/ –allowold –checkpoint hotcopy.checkpoint</p>
-<p>Using copy suffix ‘_copy’<br>Existing hotcopy directory renamed to ‘/usr/local/mysql/data/t_girl_copy_old’<br>Locked 3 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 19 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 3 tables (19 files) in 12 seconds (13 seconds overall).</p>
-<p>默认保存在数据目录下/t_girl_copy/<br>看看记录表。<br>mysql&gt; use hotcopy;<br>Database changed<br>mysql&gt; select * from checkpoint;<br>+———————+——–+———————————–+———–+<br>| time_stamp | src | dest | msg |<br>+———————+——–+———————————–+———–+<br>| 2008-03-11 14:44:58 | t_girl | /usr/local/mysql/data/t_girl_copy | Succeeded |<br>+———————+——–+———————————–+———–+<br>1 row in set (0.00 sec)</p>
-<p>5)、支持增量备份。<br>[root@localhost ~]# mysqlhotcopy t_girl./~id/ –allowold –checkpoint hotcopy.checkpoint –addtodest t_girl_new</p>
-<p>Locked 3 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 19 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/23/mysqlhotcopy/" data-id="cil2yo65i000k7ipv42ki51fq" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
-
-  
-    <article id="post-大数据日志分析初想" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/22/大数据日志分析初想/" class="article-date">
-  <time datetime="2016-02-22T06:26:10.000Z" itemprop="datePublished">2016-02-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/22/大数据日志分析初想/">大数据日志分析初想</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/22/大数据日志分析初想/" data-id="cil2yo63700007ipvjxpyu1c6" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bigdata/">bigdata</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
-  
 </section>
         
           <aside id="sidebar">
