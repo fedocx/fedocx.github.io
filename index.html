@@ -149,7 +149,7 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/26/mysql-sql-常用语法/" data-id="cil3583740000lapvnvju0u8l" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/26/mysql-sql-常用语法/" data-id="cil36ag1l000mnmpv6njkq7o8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
@@ -184,30 +184,115 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
     <div class="article-entry" itemprop="articleBody">
       
         <p>今天有空尝试了一下MYSQLHOTCOPY这个快速热备MYISAM引擎的工具。<br>(本文是针对单个服务器的情况，以后将会加入多服务器相关操作)<br>他和MYSQLDUMP的比较：<br>1、前者是一个快速文件意义上的COPY，后者是一个数据库端的SQL语句集合。<br>2、前者只能运行在数据库目录所在的机器上，后者可以用在远程客户端。<br>3、相同的地方都是在线执行LOCK TABLES 以及 UNLOCK TABLES<br>4、前者恢复只需要COPY备份文件到源目录覆盖即可，后者需要倒入SQL文件到原来库中。(source 或者.或者 mysql &lt; 备份文件)<br>用MYSQLHOTCOPY备份的步骤：<br>1、有没有PERL-DBD模块安装<br>我的机器上：<br>[root@localhost data]# rpm -qa |grep perl-DBD | grep MySQL</p>
-<p>perl-DBD-MySQL-3.0007-1.fc6<br>2、在数据库段分配一个专门用于备份的用户<br>mysql&gt; grant select,reload,lock tables on <em>.</em> to ‘hotcopyer’@’localhost’ identified by ‘123456’;<br>Query OK, 0 rows affected (0.00 sec)</p>
-<p>mysql&gt; flush privileges;<br>Query OK, 0 rows affected (0.00 sec)</p>
-<p>3、在/etc/my.cnf或者登陆用户的个人主文件.my.cnf里面添加<br>[mysqlhotcopy]<br>interactive-timeout<br>user=hotcopyer<br>password=123456<br>port=3306<br>4、开始备份。<br>[root@localhost ~]# mysqlhotcopy t_girl t_girl_new</p>
-<p>Locked 4 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>id</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 22 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 4 tables (22 files) in 5 seconds (5 seconds overall).</p>
-<p>备份后的目录：<br>[root@localhost data]# du -h | grep t_girl</p>
-<p>213M ./t_girl<br>213M ./t_girl_copy<br>[root@localhost ~]#</p>
-<p>5、MYSQLHOTCOPY用法详解。<br>1)、mysqlhotcopy 原数据库名，新数据库名<br>[root@localhost ~]# mysqlhotcopy t_girl t_girl_new</p>
-<p>Locked 4 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>id</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 22 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 4 tables (22 files) in 5 seconds (5 seconds overall).<br>2)、mysqlhotcopy 原数据库名，备份的目录<br>[root@localhost ~]# mysqlhotcopy t_girl /tmp/</p>
-<p>Locked 4 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>id</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 22 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 4 tables (22 files) in 6 seconds (6 seconds overall).<br>3)、对单个表支持正则表达式<br>(除了id 表外)<br>[root@localhost data]# mysqlhotcopy t_girl./~id/</p>
-<p>Using copy suffix ‘_copy’<br>Locked 3 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 19 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 3 tables (19 files) in 6 seconds (6 seconds overall).<br>[root@localhost data]#</p>
-<p>4)、可以把记录写到专门的表中。具体察看帮助。<br>perldoc mysqlhostcopy</p>
-<p>mysql&gt; create database hotcopy;<br>Query OK, 1 row affected (0.03 sec)<br>mysql&gt; use hotcopy<br>Database changed<br>mysql&gt; create table checkpoint(time_stamp timestamp not null,src varchar(32),dest varchar(60), msg varchar(255));<br>Query OK, 0 rows affected (0.01 sec)<br>同时记得给hotcopyer用户权限。<br>mysql&gt; grant insert on hotcopy.checkpoint to hotcopyer@’localhost’;<br>Query OK, 0 rows affected (0.00 sec)</p>
-<p>mysql&gt; flush privileges;<br>Query OK, 0 rows affected (0.00 sec)</p>
-<p>mysql&gt; \q<br>Bye<br>重复第三步的操作</p>
-<p>[root@localhost ~]# mysqlhotcopy t_girl./~id/ –allowold –checkpoint hotcopy.checkpoint</p>
-<p>Using copy suffix ‘_copy’<br>Existing hotcopy directory renamed to ‘/usr/local/mysql/data/t_girl_copy_old’<br>Locked 3 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 19 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 3 tables (19 files) in 12 seconds (13 seconds overall).</p>
-<p>默认保存在数据目录下/t_girl_copy/<br>看看记录表。<br>mysql&gt; use hotcopy;<br>Database changed<br>mysql&gt; select * from checkpoint;<br>+———————+——–+———————————–+———–+<br>| time_stamp | src | dest | msg |<br>+———————+——–+———————————–+———–+<br>| 2008-03-11 14:44:58 | t_girl | /usr/local/mysql/data/t_girl_copy | Succeeded |<br>+———————+——–+———————————–+———–+<br>1 row in set (0.00 sec)</p>
-<p>5)、支持增量备份。<br>[root@localhost ~]# mysqlhotcopy t_girl./~id/ –allowold –checkpoint hotcopy.checkpoint –addtodest t_girl_new</p>
-<p>Locked 3 tables in 0 seconds.<br>Flushed tables (<code>t_girl</code>.<code>category</code>, <code>t_girl</code>.<code>category_part</code>, <code>t_girl</code>.<code>parent</code>) in 0 seconds.<br>Copying 19 files…<br>Copying indices for 0 files…<br>Unlocked tables.<br>mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)</p>
+<p>perl-DBD-MySQL-3.0007-1.fc6<br>2、在数据库段分配一个专门用于备份的用户</p>
+<pre><code>mysql&gt; grant select,reload,lock tables on *.* to &apos;hotcopyer&apos;@&apos;localhost&apos; identified by &apos;123456&apos;;
+Query OK, 0 rows affected (0.00 sec)
 
+mysql&gt; flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+</code></pre><p>3、在/etc/my.cnf或者登陆用户的个人主文件.my.cnf里面添加</p>
+<pre><code>[mysqlhotcopy]
+interactive-timeout
+user=hotcopyer
+password=123456
+port=3306
+</code></pre><p>4、开始备份。</p>
+<pre><code>[root@localhost ~]# mysqlhotcopy t_girl t_girl_new
+
+Locked 4 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`id`, `t_girl`.`parent`) in 0 seconds.
+Copying 22 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 4 tables (22 files) in 5 seconds (5 seconds overall).
+</code></pre><p>备份后的目录：</p>
+<pre><code>[root@localhost data]# du -h | grep t_girl
+
+213M ./t_girl
+213M ./t_girl_copy
+[root@localhost ~]#
+</code></pre><p>5、MYSQLHOTCOPY用法详解。<br>1)、mysqlhotcopy 原数据库名，新数据库名</p>
+<pre><code>[root@localhost ~]# mysqlhotcopy t_girl t_girl_new
+
+Locked 4 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`id`, `t_girl`.`parent`) in 0 seconds.
+Copying 22 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 4 tables (22 files) in 5 seconds (5 seconds overall).
+</code></pre><p>2)、mysqlhotcopy 原数据库名，备份的目录</p>
+<pre><code>[root@localhost ~]# mysqlhotcopy t_girl /tmp/
+
+Locked 4 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`id`, `t_girl`.`parent`) in 0 seconds.
+Copying 22 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 4 tables (22 files) in 6 seconds (6 seconds overall).
+</code></pre><p>3)、对单个表支持正则表达式 (除了id 表外)</p>
+<pre><code>[root@localhost data]# mysqlhotcopy t_girl./~id/
+
+Using copy suffix &apos;_copy&apos;
+Locked 3 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`parent`) in 0 seconds.
+Copying 19 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 3 tables (19 files) in 6 seconds (6 seconds overall).
+[root@localhost data]#
+</code></pre><p>4)、可以把记录写到专门的表中。具体察看帮助。</p>
+<pre><code>perldoc mysqlhostcopy
+
+mysql&gt; create database hotcopy;
+Query OK, 1 row affected (0.03 sec)
+mysql&gt; use hotcopy
+Database changed
+mysql&gt; create table checkpoint(time_stamp timestamp not null,src varchar(32),dest varchar(60), msg varchar(255));
+Query OK, 0 rows affected (0.01 sec)
+同时记得给hotcopyer用户权限。
+mysql&gt; grant insert on hotcopy.checkpoint to hotcopyer@&apos;localhost&apos;;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; \q
+Bye
+</code></pre><p>重复第三步的操作</p>
+<pre><code>[root@localhost ~]# mysqlhotcopy t_girl./~id/ --allowold --checkpoint hotcopy.checkpoint
+
+Using copy suffix &apos;_copy&apos;
+Existing hotcopy directory renamed to &apos;/usr/local/mysql/data/t_girl_copy_old&apos;
+Locked 3 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`parent`) in 0 seconds.
+Copying 19 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 3 tables (19 files) in 12 seconds (13 seconds overall).
+</code></pre><p>默认保存在数据目录下/t_girl_copy/<br>看看记录表。</p>
+<pre><code>mysql&gt; use hotcopy;
+Database changed
+mysql&gt; select * from checkpoint;
++---------------------+--------+-----------------------------------+-----------+
+| time_stamp | src | dest | msg |
++---------------------+--------+-----------------------------------+-----------+
+| 2008-03-11 14:44:58 | t_girl | /usr/local/mysql/data/t_girl_copy | Succeeded |
++---------------------+--------+-----------------------------------+-----------+
+1 row in set (0.00 sec)
+</code></pre><p>5)、支持增量备份。</p>
+<pre><code>[root@localhost ~]# mysqlhotcopy t_girl./~id/ --allowold --checkpoint hotcopy.checkpoint --addtodest t_girl_new
+
+Locked 3 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`parent`) in 0 seconds.
+Copying 19 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/23/mysqlhotcopy/" data-id="cil2yo65i000k7ipv42ki51fq" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/23/mysqlhotcopy/" data-id="cil36ag18000knmpvtau866cc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
@@ -245,7 +330,7 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/22/大数据日志分析初想/" data-id="cil2yo63700007ipvjxpyu1c6" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/22/大数据日志分析初想/" data-id="cil36afza0000nmpvix00zblj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bigdata/">bigdata</a></li></ul>
@@ -272,7 +357,7 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂/">杂</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -281,7 +366,7 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 15px;">博客编辑</a> <a href="/tags/杂/" style="font-size: 10px;">杂</a>
+      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 15px;">blog</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
     </div>
   </div>
 
