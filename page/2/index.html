@@ -65,6 +65,149 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysqlhotcopy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/23/mysqlhotcopy/" class="article-date">
+  <time datetime="2016-02-23T06:22:19.000Z" itemprop="datePublished">2016-02-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/23/mysqlhotcopy/">mysqlhotcopy</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天有空尝试了一下MYSQLHOTCOPY这个快速热备MYISAM引擎的工具。<br>(本文是针对单个服务器的情况，以后将会加入多服务器相关操作)<br>他和MYSQLDUMP的比较：<br>1、前者是一个快速文件意义上的COPY，后者是一个数据库端的SQL语句集合。<br>2、前者只能运行在数据库目录所在的机器上，后者可以用在远程客户端。<br>3、相同的地方都是在线执行LOCK TABLES 以及 UNLOCK TABLES<br>4、前者恢复只需要COPY备份文件到源目录覆盖即可，后者需要倒入SQL文件到原来库中。(source 或者.或者 mysql &lt; 备份文件)<br>用MYSQLHOTCOPY备份的步骤：<br>1、有没有PERL-DBD模块安装<br>我的机器上：<br>[root@localhost data]# rpm -qa |grep perl-DBD | grep MySQL</p>
+<p>perl-DBD-MySQL-3.0007-1.fc6<br>2、在数据库段分配一个专门用于备份的用户</p>
+<pre><code>mysql&gt; grant select,reload,lock tables on *.* to &apos;hotcopyer&apos;@&apos;localhost&apos; identified by &apos;123456&apos;;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+</code></pre><p>3、在/etc/my.cnf或者登陆用户的个人主文件.my.cnf里面添加</p>
+<pre><code>[mysqlhotcopy]
+interactive-timeout
+user=hotcopyer
+password=123456
+port=3306
+</code></pre><p>4、开始备份。</p>
+<pre><code>[root@localhost ~]# mysqlhotcopy t_girl t_girl_new
+
+Locked 4 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`id`, `t_girl`.`parent`) in 0 seconds.
+Copying 22 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 4 tables (22 files) in 5 seconds (5 seconds overall).
+</code></pre><p>备份后的目录：</p>
+<pre><code>[root@localhost data]# du -h | grep t_girl
+
+213M ./t_girl
+213M ./t_girl_copy
+[root@localhost ~]#
+</code></pre><p>5、MYSQLHOTCOPY用法详解。<br>1)、mysqlhotcopy 原数据库名，新数据库名</p>
+<pre><code>[root@localhost ~]# mysqlhotcopy t_girl t_girl_new
+
+Locked 4 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`id`, `t_girl`.`parent`) in 0 seconds.
+Copying 22 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 4 tables (22 files) in 5 seconds (5 seconds overall).
+</code></pre><p>2)、mysqlhotcopy 原数据库名，备份的目录</p>
+<pre><code>[root@localhost ~]# mysqlhotcopy t_girl /tmp/
+
+Locked 4 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`id`, `t_girl`.`parent`) in 0 seconds.
+Copying 22 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 4 tables (22 files) in 6 seconds (6 seconds overall).
+</code></pre><p>3)、对单个表支持正则表达式 (除了id 表外)</p>
+<pre><code>[root@localhost data]# mysqlhotcopy t_girl./~id/
+
+Using copy suffix &apos;_copy&apos;
+Locked 3 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`parent`) in 0 seconds.
+Copying 19 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 3 tables (19 files) in 6 seconds (6 seconds overall).
+[root@localhost data]#
+</code></pre><p>4)、可以把记录写到专门的表中。具体察看帮助。</p>
+<pre><code>perldoc mysqlhostcopy
+
+mysql&gt; create database hotcopy;
+Query OK, 1 row affected (0.03 sec)
+mysql&gt; use hotcopy
+Database changed
+mysql&gt; create table checkpoint(time_stamp timestamp not null,src varchar(32),dest varchar(60), msg varchar(255));
+Query OK, 0 rows affected (0.01 sec)
+同时记得给hotcopyer用户权限。
+mysql&gt; grant insert on hotcopy.checkpoint to hotcopyer@&apos;localhost&apos;;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; \q
+Bye
+</code></pre><p>重复第三步的操作</p>
+<pre><code>[root@localhost ~]# mysqlhotcopy t_girl./~id/ --allowold --checkpoint hotcopy.checkpoint
+
+Using copy suffix &apos;_copy&apos;
+Existing hotcopy directory renamed to &apos;/usr/local/mysql/data/t_girl_copy_old&apos;
+Locked 3 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`parent`) in 0 seconds.
+Copying 19 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 3 tables (19 files) in 12 seconds (13 seconds overall).
+</code></pre><p>默认保存在数据目录下/t_girl_copy/<br>看看记录表。</p>
+<pre><code>mysql&gt; use hotcopy;
+Database changed
+mysql&gt; select * from checkpoint;
++---------------------+--------+-----------------------------------+-----------+
+| time_stamp | src | dest | msg |
++---------------------+--------+-----------------------------------+-----------+
+| 2008-03-11 14:44:58 | t_girl | /usr/local/mysql/data/t_girl_copy | Succeeded |
++---------------------+--------+-----------------------------------+-----------+
+1 row in set (0.00 sec)
+</code></pre><p>5)、支持增量备份。</p>
+<pre><code>[root@localhost ~]# mysqlhotcopy t_girl./~id/ --allowold --checkpoint hotcopy.checkpoint --addtodest t_girl_new
+
+Locked 3 tables in 0 seconds.
+Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`parent`) in 0 seconds.
+Copying 19 files...
+Copying indices for 0 files...
+Unlocked tables.
+mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.fedocx.com/2016/02/23/mysqlhotcopy/" data-id="cil5tm02b000m4kpv17sibg9o" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-大数据日志分析初想" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/02/22/大数据日志分析初想/" class="article-date">
@@ -91,7 +234,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/22/大数据日志分析初想/" data-id="cil38wkj20000xupv31o7ncpz" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/22/大数据日志分析初想/" data-id="cil5tm00d00004kpvxgg3arow" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bigdata/">bigdata</a></li></ul>
@@ -133,56 +276,10 @@ set character_set_client=utf8;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/19/mysql编码/" data-id="cil38wkkm000jxupvhyitgzmh" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/19/mysql编码/" data-id="cil5tm023000j4kpvlpc534ri" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-博客域名自动更新" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/16/博客域名自动更新/" class="article-date">
-  <time datetime="2016-02-16T07:44:35.000Z" itemprop="datePublished">2016-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/16/博客域名自动更新/">博客域名自动更新配置</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="u535A_u5BA2_u57DF_u540D_u8BBF_u95EE"><a href="#u535A_u5BA2_u57DF_u540D_u8BBF_u95EE" class="headerlink" title="博客域名访问"></a>博客域名访问</h2><p>当博客创建之后，域名服务器的cname指向了fedocx.github.io之后还是会出现通过blog.fedocx.com访问不了的情况，针对这种情况只需要在域名github里面创建一个CNAME文件，并在此文件中输入blog.fedocx.com即可。但是当下次文章更新之后CNAME文件会被覆盖。<br>我们知道我们提交的文件都会被hexo处理。如何实现每次更新都自动更新cname文件，而cname文件不被渲染呢。<br>答案是</p>
-<h3 id="1_u3001_u521B_u5EFACNAME_u6587_u4EF6"><a href="#1_u3001_u521B_u5EFACNAME_u6587_u4EF6" class="headerlink" title="1、创建CNAME文件"></a>1、创建CNAME文件</h3><p>在source文件夹下面创建CNAME文件，并写入 </p>
-<pre><code>blog.fedocx.com
-</code></pre><h3 id="2_u3001_u7F16_u8F91_config-yml"><a href="#2_u3001_u7F16_u8F91_config-yml" class="headerlink" title="2、编辑_config.yml"></a>2、编辑_config.yml</h3><p>找到  </p>
-<pre><code>skip_render:  
-</code></pre><p>修改成  </p>
-<pre><code>skip_render: CNAME  
-</code></pre><p>以后上传就可以自动更新了</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/16/博客域名自动更新/" data-id="cil38wkjl0003xupviiyqna0l" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blog/">blog</a></li></ul>
 
     </footer>
   </div>
@@ -206,7 +303,7 @@ set character_set_client=utf8;
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/office/">office</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -215,7 +312,7 @@ set character_set_client=utf8;
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 15px;">blog</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
+      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 15px;">blog</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/office/" style="font-size: 10px;">office</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
     </div>
   </div>
 
@@ -224,7 +321,7 @@ set character_set_client=utf8;
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">11</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">12</span></li></ul>
     </div>
   </div>
 
@@ -234,6 +331,10 @@ set character_set_client=utf8;
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/02/28/excel合并/">excel合并</a>
+          </li>
         
           <li>
             <a href="/2016/02/26/shell脚本脱敏/">shell脚本脱敏</a>
@@ -249,10 +350,6 @@ set character_set_client=utf8;
         
           <li>
             <a href="/2016/02/22/大数据日志分析初想/">大数据日志分析初想</a>
-          </li>
-        
-          <li>
-            <a href="/2016/02/19/mysql编码/">mysql编码</a>
           </li>
         
       </ul>
