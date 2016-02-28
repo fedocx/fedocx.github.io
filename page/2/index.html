@@ -65,6 +65,102 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql-sql-常用语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/26/mysql-sql-常用语法/" class="article-date">
+  <time datetime="2016-02-26T00:26:22.000Z" itemprop="datePublished">2016-02-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/26/mysql-sql-常用语法/">mysql sql 常用语法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="mysql_union"><a href="#mysql_union" class="headerlink" title="mysql union"></a>mysql union</h3><p>UNION 用于合并两个或多个 SELECT 语句的结果集，并消去表中任何重复行。<br>UNION 内部的 SELECT 语句必须拥有相同数量的列，列也必须拥有相似的数据类型。 同时，每条 SELECT 语句中的列的顺序必须相同.</p>
+<pre><code>SELECT column_name FROM table1
+UNION
+SELECT column_name FROM table2
+</code></pre><p>UNION ALL，不消除重复行</p>
+<pre><code>SELECT column_name FROM table1
+UNION ALL
+SELECT column_name FROM table2
+</code></pre><p>注意：union 的列数必须一样.列的类型可以不一样，但推荐查询的每一列，相对应的类型应一样.<br>多次sql语句取出的列名可以不一致，此时以第一个sql语句的列名为准。</p>
+<h3 id="mysql_jion"><a href="#mysql_jion" class="headerlink" title="mysql jion"></a>mysql jion</h3><p>1．内联结：将两个表中存在联结关系的字段符合联结关系的那些记录形成记录集的联结。<br>2．外联结：分为外左联结和外右联结。</p>
+<p>案例背景</p>
+<pre><code>create table java (name varchar(255));
+insert into java values (&apos;java1&apos;),(&apos;java2&apos;),(&apos;blue&apos;); 
+create table mysql (name varchar(255));
+insert into mysql values (&apos;mysql1&apos;),(&apos;mysql2&apos;),(&apos;blue&apos;); 
+</code></pre><h4 id="u5185_u8054_u7ED3"><a href="#u5185_u8054_u7ED3" class="headerlink" title="内联结"></a>内联结</h4><pre><code>select * from java,mysql where java.name=mysql.name;
+SELECT * FROM java  JOIN mysql ON java.name=mysql.name;
+SELECT * FROM java INNER JOIN mysql ON java.name=mysql.name;
+SELECT * FROM java CROSS JOIN mysql ON java.name=mysql.name;
+SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
+</code></pre><p>这四个语句都是内联结，返回结果都是</p>
+<pre><code>+------+------+
+| name | name |
++------+------+
+| blue | blue |
++------+------+
+</code></pre><p>table_reference条目中的每个逗号都看作相当于一个内部联合 默认的JOIN都是INNER JOIN CROSS JOIN从语法上说与INNER JOIN等同 STRAIGHT_JOIN与JOIN相同。除了有一点不一样，左表会在右表之前被读取。STRAIGH_JOIN可以被用于这样的情况，即联合优化符以错误的顺序排列表。<br>内联结的语法如下:</p>
+<pre><code>join_table:
+    table_reference [INNER | CROSS] JOIN table_factor [join_condition]
+  | table_reference STRAIGHT_JOIN table_factor
+  | table_reference STRAIGHT_JOIN table_factor ON condition
+</code></pre><h4 id="u5916_u8054_u7ED3"><a href="#u5916_u8054_u7ED3" class="headerlink" title="外联结"></a>外联结</h4><h5 id="u5DE6_u8054_u7ED3"><a href="#u5DE6_u8054_u7ED3" class="headerlink" title="左联结"></a>左联结</h5><pre><code>SELECT * FROM java LEFT JOIN mysql ON java.name=mysql.name;
+</code></pre><p>结果是</p>
+<pre><code>+-------+------+
+| name  | name |
++-------+------+
+| java1 | NULL |
+| java2 | NULL |
+| blue  | blue |
++-------+------+
+</code></pre><p>所以从上面结果看出，因为java表中的java1和java2记录的name没有在mysql表中有对应name，因此为空，但java 所有的列栏仍有java1和java2记录，mysql表所有列栏为NULL。而剩下的blue的那条记录就是java表和mysql表内连接的结果。 如果对于在LEFT JOIN中的ON或USING部分中的右表没有匹配的记录，则所有列被设置为NULL的一个行被用于右表。如果一个表在其它表中没有对应部分，您可以使用这种方法在这种表中查找记录：</p>
+<pre><code>SELECT * FROM java LEFT JOIN mysql ON java.name=mysql.name WHERE mysql.name IS NULL; 
+</code></pre><p>该sql找出在java的人，但是不在mysql里的人，这里明显是人员’java1’和’java2’符合要求。</p>
+<h5 id="u53F3_u8054_u7ED3"><a href="#u53F3_u8054_u7ED3" class="headerlink" title="右联结"></a>右联结</h5><pre><code>SELECT * FROM java RIGHT JOIN mysql ON java.name=mysql.name;
+</code></pre><p>返回结果是</p>
+<pre><code>+------+--------+
+| name | name   |
++------+--------+
+| NULL | mysql1 |
+| NULL | mysql2 |
+| blue | blue   |
++------+--------+
+</code></pre><p>右联结和左联接结果类似，只是这次是mysql表保存所有的结果集。</p>
+<p>外联结的语法</p>
+<pre><code>join_table:| table_reference LEFT [OUTER] JOIN table_reference join_condition
+  | table_reference NATURAL [LEFT [OUTER]] JOIN table_factor
+  | table_reference RIGHT [OUTER] JOIN table_reference join_condition
+  | table_reference NATURAL [RIGHT [OUTER]] JOIN table_factor
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.fedocx.com/2016/02/26/mysql-sql-常用语法/" data-id="cil65on2b000o43pvciy2kq75" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-mysqlhotcopy" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/02/23/mysqlhotcopy/" class="article-date">
@@ -196,7 +292,7 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/23/mysqlhotcopy/" data-id="cil5u04q1000m5spvblflaxc3" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/23/mysqlhotcopy/" data-id="cil65on23000m43pvz03wvij0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
@@ -234,7 +330,7 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/22/大数据日志分析初想/" data-id="cil5u04n200005spv7zrg8chm" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/22/大数据日志分析初想/" data-id="cil65omzk000043pvqka0oj1e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bigdata/">bigdata</a></li></ul>
@@ -246,51 +342,9 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
 
 
   
-    <article id="post-mysql编码" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/19/mysql编码/" class="article-date">
-  <time datetime="2016-02-19T03:41:17.000Z" itemprop="datePublished">2016-02-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/19/mysql编码/">mysql编码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>修改mysql编码支持中文 </p>
-<pre><code>set character_set_results=utf8;
-set character_set_connection=utf8;
-set character_set_client=utf8;
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/19/mysql编码/" data-id="cil5u04pr000j5spvcrkbl31v" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -303,7 +357,7 @@ set character_set_client=utf8;
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/office/">office</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/office/">office</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -312,7 +366,7 @@ set character_set_client=utf8;
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 15px;">blog</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/office/" style="font-size: 10px;">office</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
+      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 15px;">blog</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/office/" style="font-size: 15px;">office</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
     </div>
   </div>
 
@@ -321,7 +375,7 @@ set character_set_client=utf8;
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">12</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -331,6 +385,10 @@ set character_set_client=utf8;
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/02/28/excel-宏编程/">excel 宏编程</a>
+          </li>
         
           <li>
             <a href="/2016/02/28/excel合并/">excel合并</a>
@@ -346,10 +404,6 @@ set character_set_client=utf8;
         
           <li>
             <a href="/2016/02/23/mysqlhotcopy/">mysqlhotcopy</a>
-          </li>
-        
-          <li>
-            <a href="/2016/02/22/大数据日志分析初想/">大数据日志分析初想</a>
           </li>
         
       </ul>
