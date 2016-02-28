@@ -152,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/28/excel-宏编程/" data-id="cil6crzde000w34fylq22t7ps" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/28/excel-宏编程/" data-id="cil70red3000wz3fyhrou6eph" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/office/">office</a></li></ul>
@@ -216,14 +216,13 @@ If MyName &lt;&gt; AWbName Then
 Set Wb = Workbooks.Open(MyPath &amp; &quot;\&quot; &amp; MyName) 
 
 Num = Num + 1 
-
+IF Num=1  Then
 With Workbooks(1).ActiveSheet 
 
-.Cells(.Range(&quot;A65536&quot;).End(xlUp).Row + 2, 1) = Left(MyName, Len(MyName) - 4) 
 
 For G = 1 To Sheets.Count 
 
-Wb.Sheets(G).UsedRange.Copy .Cells(.Range(&quot;A65536&quot;).End(xlUp).Row + 1, 1) 
+Wb.Sheets(G).UsedRange.Copy .Cells(.Range(&quot;A65536&quot;).End(xlUp).Row  , 1) 
 
 Next 
 
@@ -232,6 +231,23 @@ WbN = WbN &amp; Chr(13) &amp; Wb.Name
 Wb.Close False 
 
 End With 
+
+Else
+With Workbooks(1).ActiveSheet 
+
+
+For G = 1 To Sheets.Count 
+
+Wb.Sheets(G).UsedRange.Copy .Cells(.Range(&quot;A2&quot;).End(xlDown).Row +1   , 1) 
+
+Next 
+
+WbN = WbN &amp; Chr(13) &amp; Wb.Name 
+
+Wb.Close False 
+
+End With 
+End if
 
 End If 
 
@@ -245,13 +261,13 @@ Application.ScreenUpdating = True
 
 MsgBox &quot;共合并了&quot; &amp; Num &amp; &quot;个工作薄下的全部工作表。如下：&quot; &amp; Chr(13) &amp; WbN,vbInformation, &quot;提示&quot; 
 
-End Sub
+End Sub 
 </code></pre><p>5、运行→运行子过程/用户窗体（或者直接点击运行按钮，快捷键：F5），即可合并所有Excel表格到”数据合并.xlsx“文档的Sheet1工作表里面<br>注意：如果合并出现问题可能是因为代码部分excel文件后缀不同导致，修改代码MyName部分即可。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/28/excel合并/" data-id="cil6crzd0000t34fyi85lg6e5" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/28/excel合并/" data-id="cil70recx000tz3fyro83e4nj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/office/">office</a></li></ul>
@@ -303,7 +319,7 @@ make install
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/26/shell脚本脱敏/" data-id="cil6crzba000b34fyfa81skh0" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/26/shell脚本脱敏/" data-id="cil70reb4000bz3fyc55zuojt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
