@@ -65,6 +65,105 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-excel-宏编程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/28/excel-宏编程/" class="article-date">
+  <time datetime="2016-02-28T06:05:59.000Z" itemprop="datePublished">2016-02-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/28/excel-宏编程/">excel 宏编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转载自：<a href="http://blog.sina.com.cn/s/blog_59f2f1940100aaxs.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_59f2f1940100aaxs.html</a></p>
+<p> 我们常用Excel统计一些数据，如果善用VBA，就能自动做出各种复杂的报表，懒人就是追求一劳永逸！不过，也不是真懒啦，只是用智慧（脑力劳动）将自身从体力劳动中解放出来而已，人类也是这样进步的。我有这样的感觉，就是每见到一个语句或函数，都会激发出偷懒的灵感来，哈哈，很自恋了，其实好玩而已。</p>
+<hr>
+<p>用过VB的人都应该知道如何声明变量，在VBA中声明变量和VB中是完全一样的！<br>使用Dim语句<br>Dim a as integer ‘声明a为整型变量<br>Dim a ‘声明a为变体变量<br>Dim a as string ‘声明a为字符串变量<br>Dim a as currency ,b as currency ,c as currency ‘声明a,b,c为货币变量<br>……<br>声明变量可以是：Byte、Boolean、Integer、Long、Currency、Single、Double、Decimal（当前不支持）、Date、String（只限变长字符串）、String * length（定长字符串）、Object、Variant、用户定义类型或对象类型。</p>
+<p>强制声明变量<br>Option Explicit<br>说明：该语句必在任何过程之前出现在模块中。</p>
+<p>声明常数<br>用来代替文字值。<br>Const</p>
+<p>‘ 常数的默认状态是 Private。<br>Const My = 456</p>
+<p>‘ 声明 Public 常数。<br>Public Const MyString = “HELP”</p>
+<p>‘ 声明 Private Integer 常数。<br>Private Const MyInt As Integer = 5</p>
+<p>‘ 在同一行里声明多个常数。<br>Const MyStr = “Hello”, MyDouble As Double = 3.4567</p>
+<p>选择当前单元格所在区域</p>
+<p>在EXCEL97中，有一个十分好的功能，他就是把鼠标放置在一个有效数据单元格中，执行该段代码，你就可以将连在一起的一片数据全部选中。只要将该段代码加入到你的模块中。<br>Sub My_Select<br>Selection.CurrentRegion.Select<br>End sub</p>
+<p>返回当前单元格中数据删除前后空格后的值<br>sub my_trim<br>msgbox Trim(ActiveCell.Value)<br>end sub</p>
+<p>单元格位移<br>sub my_offset<br>ActiveCell.Offset(0, 1).Select’当前单元格向左移动一格<br>ActiveCell.Offset(0, -1).Select’当前单元格向右移动一格<br>ActiveCell.Offset(1 , 0).Select’当前单元格向下移动一格<br>ActiveCell.Offset(-1 , 0).Select’当前单元格向上移动一格<br>end sub<br>如果上述程序产生错误那是因为单元格不能移动，为了解除上述错误，我们可以往<br>sub my_offset 之下加一段代码 on error resume next</p>
+<p>注意以下代码都不再添加 sub “代码名称” 和end sub请自己添加!</p>
+<p>给当前单元格赋值<br>ActiveCell.Value = “你好！！！”</p>
+<p>给指定单元格赋值<br>例如：Ａ１单元格内容设为”ＨＥＬＬＯ”<br>Range(“a1”).value=”hello”</p>
+<p>又如：你现在的工作簿在sheet1上，你要往sheet2的Ａ１单元格中插入”ＨＥＬＬＯ”<br>1.<br>sheets(“sheet2”).select<br>range(“a1”).value=”hello”<br>或<br>2.<br>Sheets(“sheet1”).Range(“a1”).Value = “hello”</p>
+<p>说明：<br>1.sheet2被选中，然后在将“HELLO”赋到A1单元格中。<br>2.sheet2不必被选中，即可“HELLO”赋到sheet2 的A1单元格中。</p>
+<p>隐藏工作表<br>‘隐藏SHEET1这张工作表<br>　　sheets(“sheet1”).Visible=False</p>
+<p>‘显示SHEET1这张工作表<br>　　sheets(“sheet1”).Visible=True</p>
+<p>打印预览<br>有时候我们想把所有的EXCEL中的SHEET都打印预览，请使用该段代码，它将在你现有的工作簿中循环，直到最后一个工作簿结束循环预览。<br>Dim my As Worksheet<br>For Each my In Worksheets<br>my.PrintPreview<br>Next my</p>
+<p>得到当前单元格的地址<br>msgbox ActiveCell.Address</p>
+<p>得到当前日期及时间<br>msgbox date &amp; chr(13) &amp; time</p>
+<p>保护工作簿<br>ActiveSheet.Protect</p>
+<p>取消保护工作簿<br>ActiveSheet.Unprotect</p>
+<p>给活动工作表改名为 “liu”<br>ActiveSheet.Name = “liu”</p>
+<p>打开一个应用程序<br>AppActivate (Shell(“C:\WINDOWS\CALC.EXE”))</p>
+<p>增加一个工作表<br>Worksheets.Add</p>
+<p>删除活动工作表<br>activesheet.delete</p>
+<p>打开一个工作簿文件<br>Workbooks.Open FileName:=”C:\My Documents\Book2.xls”</p>
+<p>关闭活动窗口<br>ActiveWindow.Close</p>
+<p>单元格格式<br>选定单元格左对齐<br>Selection.HorizontalAlignment = xlLeft</p>
+<p>选定单元格居中<br>Selection.HorizontalAlignment = xlCenter</p>
+<p>选定单元格右对齐<br>Selection.HorizontalAlignment = xlRight</p>
+<p>选定单元格为百分号风格<br>Selection.Style = “Percent”</p>
+<p>选定单元格字体为粗体<br>Selection.Font.Bold = True</p>
+<p>选定单元格字体为斜体<br>Selection.Font.Italic = True</p>
+<p>选定单元格字体为宋体20号字<br>With Selection.Font<br>.Name = “宋体”<br>.Size = 20<br>End With</p>
+<p>With 语句</p>
+<p>With 对象<br>.描述<br>End With</p>
+<p>清除单元格<br>ActiveCell.Clear ‘删除所有文字、批注、格式</p>
+<p>返回选定区域的行数<br>MsgBox Selection.Rows.Count</p>
+<p>返回选定区域的列数<br>MsgBox Selection.Columns.Count</p>
+<p>返回选定区域的地址<br>Selection.Address</p>
+<p>忽略所有的错误<br>ON ERROR RESUME NEXT</p>
+<p>遇错跳转<br>on error goto err_handle<br>‘中间的其他代码<br>err_handle: ‘ 标签<br>‘跳转后的代码</p>
+<p>删除一个文件<br>kill “c:\1.txt”</p>
+<p>定制自己的状态栏<br>Application.StatusBar = “现在时刻: “ &amp; Time</p>
+<p>恢复自己的状态栏<br>Application.StatusBar = false</p>
+<p>用代码执行一个宏<br>Application.Run macro:=”text”</p>
+<p>滚动窗口到a1的位置<br>ActiveWindow.ScrollRow = 1<br>ActiveWindow.ScrollColumn = 1</p>
+<p>定制系统日期<br>Dim MyDate, MyDay<br>MyDate = #12/12/69#<br>MyDay = Day(MyDate)</p>
+<p>返回当天的时间<br>Dim MyDate, MyYear<br>MyDate = Date<br>MyYear = Year(MyDate)<br>MsgBox MyYear</p>
+<p>inputbox&lt;输入框&gt;<br>XX=InputBox (“Enter number of months to add”)</p>
+<p>得到一个文件名<br>Dim kk As String<br>kk = Application.GetOpenFilename(“EXCEL (<em>.XLS), </em>.XLS”, Title:=”提示：请打开一个EXCEL文件：”)<br>msgbox kk</p>
+<p>打开zoom对话框<br>Application.Dialogs(xlDialogZoom).Show</p>
+<p>激活字体对话框<br>Application.Dialogs(xlDialogActiveCellFont).Show</p>
+<p>打开另存对话框<br>Dim kk As String<br>kk = Application.GetSaveAsFilename(“excel (<em>.xls), </em>.xls”)<br>Workbooks.Open kk</p>
+<p>冻结窗口</p>
+<p>Range(“A2”).Select<br>ActiveWindow.FreezePanes = True</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.fedocx.com/2016/02/28/excel-宏编程/" data-id="cim0omc4300121npviypz3awi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/office/">office</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-excel合并" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/02/28/excel合并/" class="article-date">
@@ -168,7 +267,7 @@ End Sub
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/28/excel合并/" data-id="cily88u8i000ww2pvbe3qgxov" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/28/excel合并/" data-id="cim0omc3w000z1npvmq6unzon" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/office/">office</a></li></ul>
@@ -220,7 +319,7 @@ make install
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/26/shell脚本脱敏/" data-id="cily88u6i000bw2pv9fkr4lbp" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/26/shell脚本脱敏/" data-id="cim0omc27000e1npvhvr5wq8o" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
@@ -232,105 +331,9 @@ make install
 
 
   
-    <article id="post-mysql-sql-常用语法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/26/mysql-sql-常用语法/" class="article-date">
-  <time datetime="2016-02-26T00:26:22.000Z" itemprop="datePublished">2016-02-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/26/mysql-sql-常用语法/">mysql sql 常用语法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="mysql_union"><a href="#mysql_union" class="headerlink" title="mysql union"></a>mysql union</h3><p>UNION 用于合并两个或多个 SELECT 语句的结果集，并消去表中任何重复行。<br>UNION 内部的 SELECT 语句必须拥有相同数量的列，列也必须拥有相似的数据类型。 同时，每条 SELECT 语句中的列的顺序必须相同.</p>
-<pre><code>SELECT column_name FROM table1
-UNION
-SELECT column_name FROM table2
-</code></pre><p>UNION ALL，不消除重复行</p>
-<pre><code>SELECT column_name FROM table1
-UNION ALL
-SELECT column_name FROM table2
-</code></pre><p>注意：union 的列数必须一样.列的类型可以不一样，但推荐查询的每一列，相对应的类型应一样.<br>多次sql语句取出的列名可以不一致，此时以第一个sql语句的列名为准。</p>
-<h3 id="mysql_jion"><a href="#mysql_jion" class="headerlink" title="mysql jion"></a>mysql jion</h3><p>1．内联结：将两个表中存在联结关系的字段符合联结关系的那些记录形成记录集的联结。<br>2．外联结：分为外左联结和外右联结。</p>
-<p>案例背景</p>
-<pre><code>create table java (name varchar(255));
-insert into java values (&apos;java1&apos;),(&apos;java2&apos;),(&apos;blue&apos;); 
-create table mysql (name varchar(255));
-insert into mysql values (&apos;mysql1&apos;),(&apos;mysql2&apos;),(&apos;blue&apos;); 
-</code></pre><h4 id="u5185_u8054_u7ED3"><a href="#u5185_u8054_u7ED3" class="headerlink" title="内联结"></a>内联结</h4><pre><code>select * from java,mysql where java.name=mysql.name;
-SELECT * FROM java  JOIN mysql ON java.name=mysql.name;
-SELECT * FROM java INNER JOIN mysql ON java.name=mysql.name;
-SELECT * FROM java CROSS JOIN mysql ON java.name=mysql.name;
-SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
-</code></pre><p>这四个语句都是内联结，返回结果都是</p>
-<pre><code>+------+------+
-| name | name |
-+------+------+
-| blue | blue |
-+------+------+
-</code></pre><p>table_reference条目中的每个逗号都看作相当于一个内部联合 默认的JOIN都是INNER JOIN CROSS JOIN从语法上说与INNER JOIN等同 STRAIGHT_JOIN与JOIN相同。除了有一点不一样，左表会在右表之前被读取。STRAIGH_JOIN可以被用于这样的情况，即联合优化符以错误的顺序排列表。<br>内联结的语法如下:</p>
-<pre><code>join_table:
-    table_reference [INNER | CROSS] JOIN table_factor [join_condition]
-  | table_reference STRAIGHT_JOIN table_factor
-  | table_reference STRAIGHT_JOIN table_factor ON condition
-</code></pre><h4 id="u5916_u8054_u7ED3"><a href="#u5916_u8054_u7ED3" class="headerlink" title="外联结"></a>外联结</h4><h5 id="u5DE6_u8054_u7ED3"><a href="#u5DE6_u8054_u7ED3" class="headerlink" title="左联结"></a>左联结</h5><pre><code>SELECT * FROM java LEFT JOIN mysql ON java.name=mysql.name;
-</code></pre><p>结果是</p>
-<pre><code>+-------+------+
-| name  | name |
-+-------+------+
-| java1 | NULL |
-| java2 | NULL |
-| blue  | blue |
-+-------+------+
-</code></pre><p>所以从上面结果看出，因为java表中的java1和java2记录的name没有在mysql表中有对应name，因此为空，但java 所有的列栏仍有java1和java2记录，mysql表所有列栏为NULL。而剩下的blue的那条记录就是java表和mysql表内连接的结果。 如果对于在LEFT JOIN中的ON或USING部分中的右表没有匹配的记录，则所有列被设置为NULL的一个行被用于右表。如果一个表在其它表中没有对应部分，您可以使用这种方法在这种表中查找记录：</p>
-<pre><code>SELECT * FROM java LEFT JOIN mysql ON java.name=mysql.name WHERE mysql.name IS NULL; 
-</code></pre><p>该sql找出在java的人，但是不在mysql里的人，这里明显是人员’java1’和’java2’符合要求。</p>
-<h5 id="u53F3_u8054_u7ED3"><a href="#u53F3_u8054_u7ED3" class="headerlink" title="右联结"></a>右联结</h5><pre><code>SELECT * FROM java RIGHT JOIN mysql ON java.name=mysql.name;
-</code></pre><p>返回结果是</p>
-<pre><code>+------+--------+
-| name | name   |
-+------+--------+
-| NULL | mysql1 |
-| NULL | mysql2 |
-| blue | blue   |
-+------+--------+
-</code></pre><p>右联结和左联接结果类似，只是这次是mysql表保存所有的结果集。</p>
-<p>外联结的语法</p>
-<pre><code>join_table:| table_reference LEFT [OUTER] JOIN table_reference join_condition
-  | table_reference NATURAL [LEFT [OUTER]] JOIN table_factor
-  | table_reference RIGHT [OUTER] JOIN table_reference join_condition
-  | table_reference NATURAL [RIGHT [OUTER]] JOIN table_factor
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/26/mysql-sql-常用语法/" data-id="cily88u7w000rw2pvubu0jbkd" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -343,7 +346,7 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/office/">office</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/office/">office</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -352,7 +355,7 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 15px;">blog</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/office/" style="font-size: 15px;">office</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
+      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 15px;">blog</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/office/" style="font-size: 15px;">office</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
     </div>
   </div>
 
@@ -361,7 +364,7 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -371,6 +374,10 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/03/20/安全运维/">安全运维</a>
+          </li>
         
           <li>
             <a href="/2016/03/19/django-start/">django_start</a>
@@ -386,10 +393,6 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
         
           <li>
             <a href="/2016/02/28/excel合并/">excel合并</a>
-          </li>
-        
-          <li>
-            <a href="/2016/02/26/shell脚本脱敏/">shell脚本脱敏</a>
           </li>
         
       </ul>
