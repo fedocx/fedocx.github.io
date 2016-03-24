@@ -65,48 +65,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-tech-tree" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/03/tech-tree/" class="article-date">
-  <time datetime="2016-02-03T08:19:02.000Z" itemprop="datePublished">2016-02-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/03/tech-tree/">技能树</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="u8FD0_u7EF4_u5DE5_u7A0B_u5E08"><a href="#u8FD0_u7EF4_u5DE5_u7A0B_u5E08" class="headerlink" title="运维工程师"></a>运维工程师</h2><p><img src="/img/tech-tree/yunwei.jpg" alt=""></p>
-<h2 id="u5B89_u5168_u5DE5_u7A0B_u5E08"><a href="#u5B89_u5168_u5DE5_u7A0B_u5E08" class="headerlink" title="安全工程师"></a>安全工程师</h2><p><img src="/img/tech-tree/anquan.jpg" alt=""></p>
-<h2 id="u5927_u6570_u636E_u5DE5_u7A0B_u5E08"><a href="#u5927_u6570_u636E_u5DE5_u7A0B_u5E08" class="headerlink" title="大数据工程师"></a>大数据工程师</h2><p><img src="/img/tech-tree/dashuju.jpg" alt=""></p>
-<h2 id="u4E91_u8BA1_u7B97_u5DE5_u7A0B_u5E08"><a href="#u4E91_u8BA1_u7B97_u5DE5_u7A0B_u5E08" class="headerlink" title="云计算工程师"></a>云计算工程师</h2><p><img src="/img/tech-tree/yunjisuan.jpg" alt=""></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/03/tech-tree/" data-id="cim6xrt6v000b0ypvfamxhtzq" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/techguide/">techguide</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-oracle_tablelock" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/02/03/oracle_tablelock/" class="article-date">
@@ -151,7 +109,68 @@ FROM V$LOCKED_OBJECT l,V$SESSION S WHERE l.SESSION_ID=S.SID;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/03/oracle_tablelock/" data-id="cim6xrt81000n0ypvlfgeb2tg" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/03/oracle_tablelock/" data-id="cim6xuyn4000k1qpv343tdone" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oracle/">oracle</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-oracle_tablespacemanage" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/02/oracle_tablespacemanage/" class="article-date">
+  <time datetime="2016-02-01T23:56:29.000Z" itemprop="datePublished">2016-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/02/oracle_tablespacemanage/">oracle 表空间管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>查看表空间已经是用的百分比  </p>
+<pre><code>select   a.tablespace_name,a.bytes/1024/1024 &quot;Sum MB&quot;,(a.bytes-b.bytes)/1024/1024   &quot;used MB&quot;,b.bytes/1024/1024 &quot;free MB&quot;,round(((a.bytes-b.bytes)/a.bytes)*100,2) &quot;percent_used&quot;  
+from  
+(select tablespace_name,sum(bytes) bytes from dba_data_files group by tablespace_name)   a,  
+(select tablespace_name,sum(bytes) bytes,max(bytes) largest from dba_free_space group by tablespace_name)   b  
+where   a.tablespace_name=b.tablespace_name  
+order   by   ((a.bytes-b.bytes)/a.bytes)   desc 
+</code></pre><p>查看到SYSAUX表空间已使用百分比达到90%以上，现在使用了多少空间，最大可以扩展的空间大小  </p>
+<pre><code>select   file_name,tablespace_name,bytes/1024/1024 &quot;bytes MB&quot;,maxbytes/1024/1024 &quot;maxbytes MB&quot;   from   dba_data_files  where tablespace_name=&apos;SYSAUX&apos;; 
+</code></pre><p>查看 xxx 表空间是否为自动扩展  </p>
+<pre><code>select file_id,file_name,tablespace_name,autoextensible,increment_by from dba_data_files order by file_id desc;
+</code></pre><p>增加数据文件，扩大表空间  </p>
+<pre><code>alter   tablespace   MLOG_NORM_SPACE  
+add   datafile   &apos;/oracle/oms/oradata/mlog/Mlog_Norm_data001.dbf&apos;  
+size   10M   autoextend   on   maxsize   20G 
+</code></pre><p>验证已经增加的数据文件  </p>
+<pre><code>select   file_name,file_id,tablespace_name   from   dba_data_files  where   tablespace_name=&apos;MLOG_NORM_SPACE&apos;；
+</code></pre><p>删除表空间数据文件  </p>
+<pre><code>alter   tablespace   MLOG_NORM_SPACE  
+drop    datafile &apos;/oracle/oms/oradata/mlog/Mlog_Norm_data001.dbf&apos; 
+
+
+select table_name from dba_tables where tablespace_name = 
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.fedocx.com/2016/02/02/oracle_tablespacemanage/" data-id="cim6xuymx000h1qpv06tjuhq4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oracle/">oracle</a></li></ul>
@@ -190,7 +209,7 @@ FROM V$LOCKED_OBJECT l,V$SESSION S WHERE l.SESSION_ID=S.SID;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/02/test/" data-id="cim6xrt6j00090ypvp6iaklca" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/02/test/" data-id="cim6xuylu00061qpvcmhdwhy6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blog/">blog</a></li></ul>
@@ -204,7 +223,7 @@ FROM V$LOCKED_OBJECT l,V$SESSION S WHERE l.SESSION_ID=S.SID;
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
     </nav>
   
 </section>
@@ -217,7 +236,7 @@ FROM V$LOCKED_OBJECT l,V$SESSION S WHERE l.SESSION_ID=S.SID;
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/office/">office</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/office/">office</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -226,7 +245,7 @@ FROM V$LOCKED_OBJECT l,V$SESSION S WHERE l.SESSION_ID=S.SID;
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 15px;">blog</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/office/" style="font-size: 15px;">office</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
+      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 15px;">blog</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/office/" style="font-size: 15px;">office</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
     </div>
   </div>
 
@@ -235,7 +254,7 @@ FROM V$LOCKED_OBJECT l,V$SESSION S WHERE l.SESSION_ID=S.SID;
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -245,10 +264,6 @@ FROM V$LOCKED_OBJECT l,V$SESSION S WHERE l.SESSION_ID=S.SID;
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2016/03/20/安全运维/">安全运维</a>
-          </li>
         
           <li>
             <a href="/2016/03/19/django-start/">django_start</a>
@@ -264,6 +279,10 @@ FROM V$LOCKED_OBJECT l,V$SESSION S WHERE l.SESSION_ID=S.SID;
         
           <li>
             <a href="/2016/02/28/excel合并/">excel合并</a>
+          </li>
+        
+          <li>
+            <a href="/2016/02/26/shell脚本脱敏/">shell脚本脱敏</a>
           </li>
         
       </ul>
