@@ -65,6 +65,86 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hexo语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/16/hexo语法/" class="article-date">
+  <time datetime="2016-02-16T03:56:39.000Z" itemprop="datePublished">2016-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/16/hexo语法/">hexo语法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="markdown_u8BED_u6CD5_u4ECB_u7ECD"><a href="#markdown_u8BED_u6CD5_u4ECB_u7ECD" class="headerlink" title="markdown语法介绍"></a>markdown语法介绍</h2><p>例文</p>
+<p>你可以使用vim工具直接编辑md文件，也可以用记事本打开md文件编辑你的文章，也可以Markdown的编辑器编写，有很多在线的编辑器，何有不少客户端的编辑器，我是Mac系统，用的一个叫Mou的编辑器，还比较好使。Windows系统下，你可以自己找一下，应该也会有很好用的编辑器。<br>什么是Markdown</p>
+<p>Markdown 是一种轻量级标记语言，创始人为约翰·格鲁伯和亚伦·斯沃茨。它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的XHTML文档”。 ——维基百科</p>
+<p>先简单介绍一下，Markdown的语法，具体怎么用，我相信大家一看例文就马上明白了。<br>Markdown语法</p>
+<pre><code>1、分段： 两个回车
+
+2、换行 两个空格 + 回车
+
+3、标题 #~###### 井号的个数表示几级标题，即Markdown可以表示一级标题到六级标题
+
+4、引用 &gt;
+
+5、列表 *，+，-，1.，选其中之一，注意后面有个空格
+
+6、代码区块 四个空格开头
+
+7、链接 [文字](链接地址)
+
+8、图片 ![图片说明](图片地址)，图片地址可以是本地路劲，也可以是网络地址
+
+9、强调 **文字**，__文字__，_文字_，*文字*
+
+10、代码 ```，``
+</code></pre><p>下面来看看例文，你就马上明白，怎么来使用这些符号来写好一篇自己的博文了。<br>例文</p>
+<p>在线编辑器例文：<a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">hexo在线编辑器</a></p>
+<p>你先试试，用Markdown怎么去些自己的文章，有了例子，还是很容易上手的。</p>
+<h2 id="hexo_u5E38_u7528_u547D_u4EE4_u4ECB_u7ECD"><a href="#hexo_u5E38_u7528_u547D_u4EE4_u4ECB_u7ECD" class="headerlink" title="hexo常用命令介绍"></a>hexo常用命令介绍</h2><p>我们在前面的已经略微的接触了一些hexo的命令，如hexo new “my blog”，hexo server等。下面来介绍一下我们经常会用到的hexo命令</p>
+<p>1、新建 </p>
+<pre><code>hexo new &quot;my blog&quot;
+</code></pre><p>新建的文件在hexo/source/_posts/my-blog.md</p>
+<p>2、编译 </p>
+<pre><code>hexo generate
+</code></pre><p>一般部署上去的时候都需要编译一下，编译后，会出现一个public文件夹，将所有的md文件编译成html文件</p>
+<p>3、开启本地服务 </p>
+<pre><code>hexo server
+</code></pre><p>这个命令，我之前已经用过了，开启本地hexo服务用的</p>
+<p>4、部署 </p>
+<pre><code>hexo deploy
+</code></pre><p>部署到git上的时候，需要用这个命令，下一篇中，我们会使用到这个命令</p>
+<p>5、清除public </p>
+<pre><code>hexo clean
+</code></pre><p>当source文件夹中的部分资源更改过之后，特别是对文件进行了删除或者路径的改变之后，需要执行这个命令，然后重新编译。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.fedocx.com/2016/02/16/hexo语法/" data-id="cioyevchh000x1ipv0cf6znm8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客编辑/">博客编辑</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-tech-tree" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/02/03/tech-tree/" class="article-date">
@@ -95,7 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/03/tech-tree/" data-id="cioj3t5gf0008hcpv29hqml0f" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/03/tech-tree/" data-id="cioyevcei00081ipv8tfz7h78" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/techguide/">techguide</a></li></ul>
@@ -151,68 +231,7 @@ FROM V$LOCKED_OBJECT l,V$SESSION S WHERE l.SESSION_ID=S.SID;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/03/oracle_tablelock/" data-id="cioj3t5ie000nhcpvduxiz6gr" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oracle/">oracle</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-oracle_tablespacemanage" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/02/oracle_tablespacemanage/" class="article-date">
-  <time datetime="2016-02-01T23:56:29.000Z" itemprop="datePublished">2016-02-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/02/oracle_tablespacemanage/">oracle 表空间管理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>查看表空间已经是用的百分比  </p>
-<pre><code>select   a.tablespace_name,a.bytes/1024/1024 &quot;Sum MB&quot;,(a.bytes-b.bytes)/1024/1024   &quot;used MB&quot;,b.bytes/1024/1024 &quot;free MB&quot;,round(((a.bytes-b.bytes)/a.bytes)*100,2) &quot;percent_used&quot;  
-from  
-(select tablespace_name,sum(bytes) bytes from dba_data_files group by tablespace_name)   a,  
-(select tablespace_name,sum(bytes) bytes,max(bytes) largest from dba_free_space group by tablespace_name)   b  
-where   a.tablespace_name=b.tablespace_name  
-order   by   ((a.bytes-b.bytes)/a.bytes)   desc 
-</code></pre><p>查看到SYSAUX表空间已使用百分比达到90%以上，现在使用了多少空间，最大可以扩展的空间大小  </p>
-<pre><code>select   file_name,tablespace_name,bytes/1024/1024 &quot;bytes MB&quot;,maxbytes/1024/1024 &quot;maxbytes MB&quot;   from   dba_data_files  where tablespace_name=&apos;SYSAUX&apos;; 
-</code></pre><p>查看 xxx 表空间是否为自动扩展  </p>
-<pre><code>select file_id,file_name,tablespace_name,autoextensible,increment_by from dba_data_files order by file_id desc;
-</code></pre><p>增加数据文件，扩大表空间  </p>
-<pre><code>alter   tablespace   MLOG_NORM_SPACE  
-add   datafile   &apos;/oracle/oms/oradata/mlog/Mlog_Norm_data001.dbf&apos;  
-size   10M   autoextend   on   maxsize   20G 
-</code></pre><p>验证已经增加的数据文件  </p>
-<pre><code>select   file_name,file_id,tablespace_name   from   dba_data_files  where   tablespace_name=&apos;MLOG_NORM_SPACE&apos;；
-</code></pre><p>删除表空间数据文件  </p>
-<pre><code>alter   tablespace   MLOG_NORM_SPACE  
-drop    datafile &apos;/oracle/oms/oradata/mlog/Mlog_Norm_data001.dbf&apos; 
-
-
-select table_name from dba_tables where tablespace_name = 
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/02/oracle_tablespacemanage/" data-id="cioj3t5hy000khcpvp5xlicp8" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/03/oracle_tablelock/" data-id="cioyevcg2000n1ipvpv25yhp4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oracle/">oracle</a></li></ul>
@@ -257,7 +276,7 @@ select table_name from dba_tables where tablespace_name =
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -267,6 +286,10 @@ select table_name from dba_tables where tablespace_name =
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/06/02/mysql-日常维护/">mysql-日常维护</a>
+          </li>
         
           <li>
             <a href="/2016/05/23/screen/">screen</a>
@@ -282,10 +305,6 @@ select table_name from dba_tables where tablespace_name =
         
           <li>
             <a href="/2016/02/28/excel-宏编程/">excel 宏编程</a>
-          </li>
-        
-          <li>
-            <a href="/2016/02/28/excel合并/">excel合并</a>
           </li>
         
       </ul>

@@ -65,6 +65,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql-日常维护" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/02/mysql-日常维护/" class="article-date">
+  <time datetime="2016-06-02T14:38:56.000Z" itemprop="datePublished">2016-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/02/mysql-日常维护/">mysql-日常维护</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>mysql报错使用mysqlhotcopy 备份报错如下：</p>
+<p>DBD::mysql::db do failed: Table ‘./tsoc/cache_clct_dst_ip_5minutely’ is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/bin/mysqlhotcopy line 520.</p>
+<p>修复方法为</p>
+<p> myisamchk -c -r /basoft/tsocba/cupid/database/data/tsoc/cache_clct_dst_ip_5minutely.MYI<br>修复了下索引，貌似好了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.fedocx.com/2016/06/02/mysql-日常维护/" data-id="cioyevch0000u1ipvecl8o224" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-screen" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/05/23/screen/" class="article-date">
@@ -93,7 +133,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/05/23/screen/" data-id="cioj3t5hb000ehcpvassiydaw" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/05/23/screen/" data-id="cioyevcf9000e1ipv4a5pm84m" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -135,49 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/03/19/django-start/" data-id="cioj3t5kl0014hcpva0j3n8ie" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python-start" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/03/04/python-start/" class="article-date">
-  <time datetime="2016-03-04T02:56:58.000Z" itemprop="datePublished">2016-03-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/04/python-start/">python start</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://www.cnblogs.com/vamei/tag/Python/" target="_blank" rel="external">http://www.cnblogs.com/vamei/tag/Python/</a></p>
-<p><a href="http://blog.liuts.com/" target="_blank" rel="external">http://blog.liuts.com/</a></p>
-<p>主要是讲运维自动化的各种架构<br><a href="http://edu.51cto.com/lession/id-53113.html" target="_blank" rel="external">http://edu.51cto.com/lession/id-53113.html</a></p>
-<p>这是python关于监控的linux的一些方法<br><a href="http://blog.jobbole.com/54563/" target="_blank" rel="external">http://blog.jobbole.com/54563/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/03/04/python-start/" data-id="cioj3t5hl000hhcpvfpodx8dp" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/03/19/django-start/" data-id="cioyevci300151ipvkgemsd1a" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -222,7 +220,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -232,6 +230,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/06/02/mysql-日常维护/">mysql-日常维护</a>
+          </li>
         
           <li>
             <a href="/2016/05/23/screen/">screen</a>
@@ -247,10 +249,6 @@
         
           <li>
             <a href="/2016/02/28/excel-宏编程/">excel 宏编程</a>
-          </li>
-        
-          <li>
-            <a href="/2016/02/28/excel合并/">excel合并</a>
           </li>
         
       </ul>

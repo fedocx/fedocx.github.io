@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2016/2 | fedocx blog</title>
+  <title>mysql-日常维护 | fedocx blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="for no work i must  work hard now">
-<meta property="og:type" content="website">
-<meta property="og:title" content="fedocx blog">
-<meta property="og:url" content="http://blog.fedocx.com/archives/2016/02/page/2/index.html">
+  <meta name="description" content="mysql报错使用mysqlhotcopy 备份报错如下：
+DBD::mysql::db do failed: Table ‘./tsoc/cache_clct_dst_ip_5minutely’ is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/bin/mysqlho">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql-日常维护">
+<meta property="og:url" content="http://blog.fedocx.com/2016/06/02/mysql-日常维护/index.html">
 <meta property="og:site_name" content="fedocx blog">
-<meta property="og:description" content="for no work i must  work hard now">
+<meta property="og:description" content="mysql报错使用mysqlhotcopy 备份报错如下：
+DBD::mysql::db do failed: Table ‘./tsoc/cache_clct_dst_ip_5minutely’ is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/bin/mysqlho">
+<meta property="og:updated_time" content="2016-06-02T14:42:29.021Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fedocx blog">
-<meta name="twitter:description" content="for no work i must  work hard now">
+<meta name="twitter:title" content="mysql-日常维护">
+<meta name="twitter:description" content="mysql报错使用mysqlhotcopy 备份报错如下：
+DBD::mysql::db do failed: Table ‘./tsoc/cache_clct_dst_ip_5minutely’ is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/bin/mysqlho">
   
     <link rel="alternative" href="/atom.xml" title="fedocx blog" type="application/atom+xml">
   
@@ -63,77 +67,56 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/02/26/mysql-sql-常用语法/" class="archive-article-date">
-  <time datetime="2016-02-26T00:26:22.000Z" itemprop="datePublished">Feb 26</time>
+        <section id="main"><article id="post-mysql-日常维护" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/02/mysql-日常维护/" class="article-date">
+  <time datetime="2016-06-02T14:38:56.000Z" itemprop="datePublished">2016-06-02</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/02/26/mysql-sql-常用语法/">mysql sql 常用语法</a>
+    <h1 class="article-title" itemprop="name">
+      mysql-日常维护
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/02/23/mysqlhotcopy/" class="archive-article-date">
-  <time datetime="2016-02-23T06:22:19.000Z" itemprop="datePublished">Feb 23</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/02/23/mysqlhotcopy/">mysqlhotcopy</a>
-    </h1>
-  
+        <p>mysql报错使用mysqlhotcopy 备份报错如下：</p>
+<p>DBD::mysql::db do failed: Table ‘./tsoc/cache_clct_dst_ip_5minutely’ is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/bin/mysqlhotcopy line 520.</p>
+<p>修复方法为</p>
+<p> myisamchk -c -r /basoft/tsocba/cupid/database/data/tsoc/cache_clct_dst_ip_5minutely.MYI<br>修复了下索引，貌似好了</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/02/22/大数据日志分析初想/" class="archive-article-date">
-  <time datetime="2016-02-22T06:26:10.000Z" itemprop="datePublished">Feb 22</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/02/22/大数据日志分析初想/">大数据分析</a>
-    </h1>
-  
-
-    </header>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.fedocx.com/2016/06/02/mysql-日常维护/" data-id="cioyevch0000u1ipvecl8o224" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/05/23/screen/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">screen</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
