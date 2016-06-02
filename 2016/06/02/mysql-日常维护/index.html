@@ -6,18 +6,18 @@
   <title>mysql-日常维护 | fedocx blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="mysql报错使用mysqlhotcopy 备份报错如下：
-DBD::mysql::db do failed: Table ‘./tsoc/cache_clct_dst_ip_5minutely’ is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/bin/mysqlho">
+DBD::mysql::db do failed: Table &amp;apos;./tsoc/cache_clct_dst_ip_5minutely&amp;apos; is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/b">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql-日常维护">
 <meta property="og:url" content="http://blog.fedocx.com/2016/06/02/mysql-日常维护/index.html">
 <meta property="og:site_name" content="fedocx blog">
 <meta property="og:description" content="mysql报错使用mysqlhotcopy 备份报错如下：
-DBD::mysql::db do failed: Table ‘./tsoc/cache_clct_dst_ip_5minutely’ is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/bin/mysqlho">
-<meta property="og:updated_time" content="2016-06-02T14:42:29.021Z">
+DBD::mysql::db do failed: Table &amp;apos;./tsoc/cache_clct_dst_ip_5minutely&amp;apos; is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/b">
+<meta property="og:updated_time" content="2016-06-02T14:44:17.729Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql-日常维护">
 <meta name="twitter:description" content="mysql报错使用mysqlhotcopy 备份报错如下：
-DBD::mysql::db do failed: Table ‘./tsoc/cache_clct_dst_ip_5minutely’ is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/bin/mysqlho">
+DBD::mysql::db do failed: Table &amp;apos;./tsoc/cache_clct_dst_ip_5minutely&amp;apos; is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/b">
   
     <link rel="alternative" href="/atom.xml" title="fedocx blog" type="application/atom+xml">
   
@@ -90,14 +90,15 @@ DBD::mysql::db do failed: Table ‘./tsoc/cache_clct_dst_ip_5minutely’ is mark
     <div class="article-entry" itemprop="articleBody">
       
         <p>mysql报错使用mysqlhotcopy 备份报错如下：</p>
-<p>DBD::mysql::db do failed: Table ‘./tsoc/cache_clct_dst_ip_5minutely’ is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/bin/mysqlhotcopy line 520.</p>
-<p>修复方法为</p>
-<p> myisamchk -c -r /basoft/tsocba/cupid/database/data/tsoc/cache_clct_dst_ip_5minutely.MYI<br>修复了下索引，貌似好了</p>
+<pre><code>DBD::mysql::db do failed: Table &apos;./tsoc/cache_clct_dst_ip_5minutely&apos; is marked as crashed and last (automatic?) repair failed at /basoft/tsocba/cupid/database/bin/mysqlhotcopy line 520.
+</code></pre><p>修复方法为</p>
+<pre><code>myisamchk -c -r /basoft/tsocba/cupid/database/data/tsoc/cache_clct_dst_ip_5minutely.MYI
+</code></pre><p>修复了下索引，貌似好了</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/06/02/mysql-日常维护/" data-id="cioyevch0000u1ipvecl8o224" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/06/02/mysql-日常维护/" data-id="cioyexlzu000u29pvcv9m3nij" class="article-share-link">Share</a>
       
       
     </footer>
