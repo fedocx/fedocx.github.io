@@ -65,6 +65,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-django-start" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/19/django-start/" class="article-date">
+  <time datetime="2016-03-18T21:20:45.000Z" itemprop="datePublished">2016-03-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/19/django-start/">django_start</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>django1.4+版本正确的 hallo world打开方式</p>
+<pre><code>http://blog.csdn.net/chenggong2dm/article/details/17394439
+</code></pre><p>django 介绍比较好的文章</p>
+<pre><code>http://www.oschina.net/translate/starting-a-django-16-project-the-right-way
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.fedocx.com/2016/03/19/django-start/" data-id="cip8qaeg70016a5pvr2g8e4uy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-python-start" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/03/04/python-start/" class="article-date">
@@ -95,7 +137,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/03/04/python-start/" data-id="cioyjbh0a000h4kpvbayztsut" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/03/04/python-start/" data-id="cip8qaeef000ha5pvxgcywpzm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -194,122 +236,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/28/excel-宏编程/" data-id="cioyjbh2h00134kpvyhrbeyzn" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/office/">office</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-excel合并" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/28/excel合并/" class="article-date">
-  <time datetime="2016-02-28T00:22:50.000Z" itemprop="datePublished">2016-02-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/28/excel合并/">excel合并</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、把需要合并的excel表格文档放到同一个文件夹里<br>2、新建一个“数据合并.xlsx“文档<br>3、打开“数据合并.xlsx“文档，在”Sheet1“工作表的地方右键→查看代码（快捷键：“Alt+F11”，尽量选用快)进入到microsoft Visual Basic for Applications窗口<br>4、双击工程资源管理器里面的sheet1，在右侧的代码区粘贴如下代码：</p>
-<pre><code>Sub 合并当前目录下所有工作簿的全部工作表() 
-
-Dim MyPath, MyName, AWbName 
-
-Dim Wb As Workbook, WbN As String 
-
-Dim G As Long 
-
-Dim Num As Long 
-
-Dim BOX As String 
-
-Application.ScreenUpdating = False 
-
-MyPath = ActiveWorkbook.Path 
-
-MyName = Dir(MyPath &amp; &quot;\&quot; &amp; &quot;*.csv&quot;) 
-
-AWbName = ActiveWorkbook.Name 
-
-Num = 0 
-
-Do While MyName &lt;&gt; &quot;&quot; 
-
-If MyName &lt;&gt; AWbName Then 
-
-Set Wb = Workbooks.Open(MyPath &amp; &quot;\&quot; &amp; MyName) 
-
-Num = Num + 1 
-IF Num=1  Then
-With Workbooks(1).ActiveSheet 
-
-
-For G = 1 To Sheets.Count 
-
-Wb.Sheets(G).UsedRange.Copy .Cells(.Range(&quot;A65536&quot;).End(xlUp).Row  , 1) 
-
-Next 
-
-WbN = WbN &amp; Chr(13) &amp; Wb.Name 
-
-Wb.Close False 
-
-End With 
-
-Else
-With Workbooks(1).ActiveSheet 
-
-
-For G = 1 To Sheets.Count 
-
-Wb.Sheets(G).UsedRange.Copy .Cells(.Range(&quot;A2&quot;).End(xlDown).Row +1   , 1) 
-
-Next 
-
-WbN = WbN &amp; Chr(13) &amp; Wb.Name 
-
-Wb.Close False 
-
-End With 
-End if
-
-End If 
-
-MyName = Dir 
-
-Loop 
-
-Range(&quot;A1&quot;).Select 
-
-Application.ScreenUpdating = True 
-
-MsgBox &quot;共合并了&quot; &amp; Num &amp; &quot;个工作薄下的全部工作表。如下：&quot; &amp; Chr(13) &amp; WbN,vbInformation, &quot;提示&quot; 
-
-End Sub 
-</code></pre><p>5、运行→运行子过程/用户窗体（或者直接点击运行按钮，快捷键：F5），即可合并所有Excel表格到”数据合并.xlsx“文档的Sheet1工作表里面<br>注意：如果合并出现问题可能是因为代码部分excel文件后缀不同导致，修改代码MyName部分即可。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/02/28/excel合并/" data-id="cioyjbh2b00104kpvonw57k44" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/28/excel-宏编程/" data-id="cip8qaeg40014a5pv2kr8cr0e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/office/">office</a></li></ul>
@@ -354,7 +281,7 @@ End Sub
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -364,6 +291,10 @@ End Sub
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/06/10/openssh-update/">openssh update</a>
+          </li>
         
           <li>
             <a href="/2016/06/02/mysql-日常维护/">mysql-日常维护</a>
@@ -379,10 +310,6 @@ End Sub
         
           <li>
             <a href="/2016/03/04/python-start/">python start</a>
-          </li>
-        
-          <li>
-            <a href="/2016/02/28/excel-宏编程/">excel 宏编程</a>
           </li>
         
       </ul>
