@@ -5,28 +5,31 @@
   
   <title>openssh update | fedocx blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="方法安装zlib
+  <meta name="description" content="方法:注意，源码安装的时候如果之前有编译过要执行make clean安装zlib
 ./configure --prefix=/usr/local/zlib
+make &amp;amp;&amp;amp; make install
 安装openssl
 ./config --prefix=/usr/local/openssl --shared  --openssldir=/usr/local/openssl
-修改/etc/ld.so.conf,如果不执行下面步骤会在openssh编译的时候出现openssl head不匹配的错误add">
+make">
 <meta property="og:type" content="article">
 <meta property="og:title" content="openssh update">
 <meta property="og:url" content="http://blog.fedocx.com/2016/06/10/openssh-update/index.html">
 <meta property="og:site_name" content="fedocx blog">
-<meta property="og:description" content="方法安装zlib
+<meta property="og:description" content="方法:注意，源码安装的时候如果之前有编译过要执行make clean安装zlib
 ./configure --prefix=/usr/local/zlib
+make &amp;amp;&amp;amp; make install
 安装openssl
 ./config --prefix=/usr/local/openssl --shared  --openssldir=/usr/local/openssl
-修改/etc/ld.so.conf,如果不执行下面步骤会在openssh编译的时候出现openssl head不匹配的错误add">
-<meta property="og:updated_time" content="2016-06-10T02:55:16.545Z">
+make">
+<meta property="og:updated_time" content="2016-06-10T02:59:32.083Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="openssh update">
-<meta name="twitter:description" content="方法安装zlib
+<meta name="twitter:description" content="方法:注意，源码安装的时候如果之前有编译过要执行make clean安装zlib
 ./configure --prefix=/usr/local/zlib
+make &amp;amp;&amp;amp; make install
 安装openssl
 ./config --prefix=/usr/local/openssl --shared  --openssldir=/usr/local/openssl
-修改/etc/ld.so.conf,如果不执行下面步骤会在openssh编译的时候出现openssl head不匹配的错误add">
+make">
   
     <link rel="alternative" href="/atom.xml" title="fedocx blog" type="application/atom+xml">
   
@@ -98,17 +101,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>方法<br>安装zlib</p>
+        <p>方法:注意，源码安装的时候如果之前有编译过要执行make clean<br>安装zlib</p>
 <pre><code>./configure --prefix=/usr/local/zlib
+make &amp;&amp; make install
 </code></pre><p>安装openssl</p>
 <pre><code>./config --prefix=/usr/local/openssl --shared  --openssldir=/usr/local/openssl
+make
+make test
+make install
 </code></pre><p>修改/etc/ld.so.conf,如果不执行下面步骤会在openssh编译的时候出现openssl head不匹配的错误<br>add /usr/local/ssl/lib to /etc/ld.so.conf and type </p>
-<pre><code>vim /etc/ld.so.conf
+<pre><code>vim /etc/ld.so.conf #加入下面行
+    /usr/local/openssl/lib
 ldconfig
 </code></pre><p>修改/etc/profile</p>
 <pre><code>export PATH=/usr/local/openssl/bin:/usr/local/openssh-7.2/bin:/usr/local/openssh7.2/sbin:$PATH
+source /etc/profile
 </code></pre><p>安装openssh</p>
 <pre><code>./configure --prefix=/usr/local/openssh7.1 --sysconfdir=/etc/ssh --with-pam --with-ssl-dir=/usr/local/openssl --with-md5-passwords --mandir=/usr/share/man --with-zlib=/usr/local/zlib 
+make &amp;&amp; make install
 </code></pre><p>参考资料：<br><a href="http://www.randombio.com/linuxsetup54.html" target="_blank" rel="external">http://www.randombio.com/linuxsetup54.html</a><br> Installing OpenSSL and OpenSSH</p>
 <p>This document describes how to install OpenSSH (Secure Shell) and OpenSSL (Secure Sockets Layer) on Linux. SSL is a general security library that provides encryption for Web services, VPNs, and other communication software. SSH is a secure replacement for telnet and ftp.</p>
 <p>OpenSSL</p>
@@ -335,7 +345,7 @@ This can happen after an upgrade when you change from PAM to password authentica
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/06/10/openssh-update/" data-id="cip954pv0000p0opvq8qn6syh" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/06/10/openssh-update/" data-id="cip95adme000p1ppvjr962z8r" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
