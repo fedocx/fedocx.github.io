@@ -19,7 +19,7 @@
 安装openssl
 ./config --prefix=/usr/local/openssl --shared  --openssldir=/usr/local/openssl
 修改/etc/ld.so.conf,如果不执行下面步骤会在openssh编译的时候出现openssl head不匹配的错误add">
-<meta property="og:updated_time" content="2016-06-10T02:52:46.897Z">
+<meta property="og:updated_time" content="2016-06-10T02:55:16.545Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="openssh update">
 <meta name="twitter:description" content="方法安装zlib
@@ -103,11 +103,13 @@
 </code></pre><p>安装openssl</p>
 <pre><code>./config --prefix=/usr/local/openssl --shared  --openssldir=/usr/local/openssl
 </code></pre><p>修改/etc/ld.so.conf,如果不执行下面步骤会在openssh编译的时候出现openssl head不匹配的错误<br>add /usr/local/ssl/lib to /etc/ld.so.conf and type </p>
-<p>   vim /etc/ld.so.conf<br>   ldconfig</p>
-<p>修改/etc/profile</p>
-<p>   export PATH=/usr/local/openssl/bin:/usr/local/openssh-7.2/bin:/usr/local/openssh7.2/sbin:$PATH</p>
-<p>安装openssh</p>
-<p>   ./configure –prefix=/usr/local/openssh7.1 –sysconfdir=/etc/ssh –with-pam –with-ssl-dir=/usr/local/openssl –with-md5-passwords –mandir=/usr/share/man –with-zlib=/usr/local/zlib<br>参考资料：<br><a href="http://www.randombio.com/linuxsetup54.html" target="_blank" rel="external">http://www.randombio.com/linuxsetup54.html</a><br> Installing OpenSSL and OpenSSH</p>
+<pre><code>vim /etc/ld.so.conf
+ldconfig
+</code></pre><p>修改/etc/profile</p>
+<pre><code>export PATH=/usr/local/openssl/bin:/usr/local/openssh-7.2/bin:/usr/local/openssh7.2/sbin:$PATH
+</code></pre><p>安装openssh</p>
+<pre><code>./configure --prefix=/usr/local/openssh7.1 --sysconfdir=/etc/ssh --with-pam --with-ssl-dir=/usr/local/openssl --with-md5-passwords --mandir=/usr/share/man --with-zlib=/usr/local/zlib 
+</code></pre><p>参考资料：<br><a href="http://www.randombio.com/linuxsetup54.html" target="_blank" rel="external">http://www.randombio.com/linuxsetup54.html</a><br> Installing OpenSSL and OpenSSH</p>
 <p>This document describes how to install OpenSSH (Secure Shell) and OpenSSL (Secure Sockets Layer) on Linux. SSL is a general security library that provides encryption for Web services, VPNs, and other communication software. SSH is a secure replacement for telnet and ftp.</p>
 <p>OpenSSL</p>
 <p>Although the standard OpenSSL installation will work for some purposes, if you plan to install OpenSSH you need to install OpenSSL twice, once for the static libraries and once to get the shared ones. Otherwise, the OpenSSH configure script may complain about headers not matching the library or OpenSSL headers not being found. It’s important to specify the paths when compiling OpenSSL to avoid these errors so you are certain where everything is being installed.</p>
@@ -333,7 +335,7 @@ This can happen after an upgrade when you change from PAM to password authentica
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/06/10/openssh-update/" data-id="cip951rh3000pzxpv3z51dh9v" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/06/10/openssh-update/" data-id="cip954pv0000p0opvq8qn6syh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
