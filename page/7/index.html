@@ -3,27 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>python start | fedocx blog</title>
+  <title>fedocx blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://www.cnblogs.com/vamei/tag/Python/
-http://blog.liuts.com/
-主要是讲运维自动化的各种架构http://edu.51cto.com/lession/id-53113.html
-这是python关于监控的linux的一些方法http://blog.jobbole.com/54563/">
-<meta property="og:type" content="article">
-<meta property="og:title" content="python start">
-<meta property="og:url" content="http://blog.fedocx.com/2016/03/04/python-start/index.html">
+  <meta name="description" content="for no work i must  work hard now">
+<meta property="og:type" content="website">
+<meta property="og:title" content="fedocx blog">
+<meta property="og:url" content="http://blog.fedocx.com/page/7/index.html">
 <meta property="og:site_name" content="fedocx blog">
-<meta property="og:description" content="http://www.cnblogs.com/vamei/tag/Python/
-http://blog.liuts.com/
-主要是讲运维自动化的各种架构http://edu.51cto.com/lession/id-53113.html
-这是python关于监控的linux的一些方法http://blog.jobbole.com/54563/">
-<meta property="og:updated_time" content="2016-03-04T03:23:59.006Z">
+<meta property="og:description" content="for no work i must  work hard now">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python start">
-<meta name="twitter:description" content="http://www.cnblogs.com/vamei/tag/Python/
-http://blog.liuts.com/
-主要是讲运维自动化的各种架构http://edu.51cto.com/lession/id-53113.html
-这是python关于监控的linux的一些方法http://blog.jobbole.com/54563/">
+<meta name="twitter:title" content="fedocx blog">
+<meta name="twitter:description" content="for no work i must  work hard now">
   
     <link rel="alternative" href="/atom.xml" title="fedocx blog" type="application/atom+xml">
   
@@ -73,10 +63,12 @@ http://blog.liuts.com/
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-python-start" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main">
+  
+    <article id="post-oracle_tablespacemanage" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/03/04/python-start/" class="article-date">
-  <time datetime="2016-03-04T02:56:58.000Z" itemprop="datePublished">2016-03-04</time>
+    <a href="/2016/02/02/oracle_tablespacemanage/" class="article-date">
+  <time datetime="2016-02-01T23:56:29.000Z" itemprop="datePublished">2016-02-02</time>
 </a>
     
   </div>
@@ -86,8 +78,8 @@ http://blog.liuts.com/
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      python start
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/02/oracle_tablespacemanage/">oracle 表空间管理</a>
     </h1>
   
 
@@ -95,45 +87,50 @@ http://blog.liuts.com/
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="http://www.cnblogs.com/vamei/tag/Python/" target="_blank" rel="external">http://www.cnblogs.com/vamei/tag/Python/</a></p>
-<p><a href="http://blog.liuts.com/" target="_blank" rel="external">http://blog.liuts.com/</a></p>
-<p>主要是讲运维自动化的各种架构<br><a href="http://edu.51cto.com/lession/id-53113.html" target="_blank" rel="external">http://edu.51cto.com/lession/id-53113.html</a></p>
-<p>这是python关于监控的linux的一些方法<br><a href="http://blog.jobbole.com/54563/" target="_blank" rel="external">http://blog.jobbole.com/54563/</a></p>
+        <p>查看表空间已经是用的百分比  </p>
+<pre><code>select   a.tablespace_name,a.bytes/1024/1024 &quot;Sum MB&quot;,(a.bytes-b.bytes)/1024/1024   &quot;used MB&quot;,b.bytes/1024/1024 &quot;free MB&quot;,round(((a.bytes-b.bytes)/a.bytes)*100,2) &quot;percent_used&quot;  
+from  
+(select tablespace_name,sum(bytes) bytes from dba_data_files group by tablespace_name)   a,  
+(select tablespace_name,sum(bytes) bytes,max(bytes) largest from dba_free_space group by tablespace_name)   b  
+where   a.tablespace_name=b.tablespace_name  
+order   by   ((a.bytes-b.bytes)/a.bytes)   desc 
+</code></pre><p>查看到SYSAUX表空间已使用百分比达到90%以上，现在使用了多少空间，最大可以扩展的空间大小  </p>
+<pre><code>select   file_name,tablespace_name,bytes/1024/1024 &quot;bytes MB&quot;,maxbytes/1024/1024 &quot;maxbytes MB&quot;   from   dba_data_files  where tablespace_name=&apos;SYSAUX&apos;; 
+</code></pre><p>查看 xxx 表空间是否为自动扩展  </p>
+<pre><code>select file_id,file_name,tablespace_name,autoextensible,increment_by from dba_data_files order by file_id desc;
+</code></pre><p>增加数据文件，扩大表空间  </p>
+<pre><code>alter   tablespace   MLOG_NORM_SPACE  
+add   datafile   &apos;/oracle/oms/oradata/mlog/Mlog_Norm_data001.dbf&apos;  
+size   10M   autoextend   on   maxsize   20G 
+</code></pre><p>验证已经增加的数据文件  </p>
+<pre><code>select   file_name,file_id,tablespace_name   from   dba_data_files  where   tablespace_name=&apos;MLOG_NORM_SPACE&apos;；
+</code></pre><p>删除表空间数据文件  </p>
+<pre><code>alter   tablespace   MLOG_NORM_SPACE  
+drop    datafile &apos;/oracle/oms/oradata/mlog/Mlog_Norm_data001.dbf&apos; 
 
+
+select table_name from dba_tables where tablespace_name = 
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/03/04/python-start/" data-id="ciphw7z37000h2rpvwplfviws" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/02/02/oracle_tablespacemanage/" data-id="ciphw7z3t000k2rpvicn5zzm2" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oracle/">oracle</a></li></ul>
 
     </footer>
   </div>
   
-    
-<nav id="article-nav">
-  
-    <a href="/2016/03/19/django-start/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          django_start
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2016/02/28/excel-宏编程/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">excel 宏编程</div>
-    </a>
-  
-</nav>
-
-  
 </article>
 
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+    </nav>
+  
 </section>
         
           <aside id="sidebar">

@@ -3,27 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>python start | fedocx blog</title>
+  <title>mysql-replication | fedocx blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://www.cnblogs.com/vamei/tag/Python/
-http://blog.liuts.com/
-主要是讲运维自动化的各种架构http://edu.51cto.com/lession/id-53113.html
-这是python关于监控的linux的一些方法http://blog.jobbole.com/54563/">
+  <meta name="description" content="mysql数据库如何实现在不停机的情况下同步。通常我们在搭建数据库同步的时候由于业务还没有上线，都是采用冷备份的方式（拷贝全量数据文件）的方式进行同步的，但是当业务已经上线，而且数据量还比较大的情况下我们如何实现同步呢，这个就需要借助于mysqldump这个神奇的工具了。注意：此方法由于默认系统未开启二进制日志，所以需要修改参数文件之后重启mysql服务器.不是完全停机！！！我这列出几个关键的步骤">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python start">
-<meta property="og:url" content="http://blog.fedocx.com/2016/03/04/python-start/index.html">
+<meta property="og:title" content="mysql-replication">
+<meta property="og:url" content="http://blog.fedocx.com/2016/06/16/mysql-replication/index.html">
 <meta property="og:site_name" content="fedocx blog">
-<meta property="og:description" content="http://www.cnblogs.com/vamei/tag/Python/
-http://blog.liuts.com/
-主要是讲运维自动化的各种架构http://edu.51cto.com/lession/id-53113.html
-这是python关于监控的linux的一些方法http://blog.jobbole.com/54563/">
-<meta property="og:updated_time" content="2016-03-04T03:23:59.006Z">
+<meta property="og:description" content="mysql数据库如何实现在不停机的情况下同步。通常我们在搭建数据库同步的时候由于业务还没有上线，都是采用冷备份的方式（拷贝全量数据文件）的方式进行同步的，但是当业务已经上线，而且数据量还比较大的情况下我们如何实现同步呢，这个就需要借助于mysqldump这个神奇的工具了。注意：此方法由于默认系统未开启二进制日志，所以需要修改参数文件之后重启mysql服务器.不是完全停机！！！我这列出几个关键的步骤">
+<meta property="og:updated_time" content="2016-06-16T05:55:43.510Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python start">
-<meta name="twitter:description" content="http://www.cnblogs.com/vamei/tag/Python/
-http://blog.liuts.com/
-主要是讲运维自动化的各种架构http://edu.51cto.com/lession/id-53113.html
-这是python关于监控的linux的一些方法http://blog.jobbole.com/54563/">
+<meta name="twitter:title" content="mysql-replication">
+<meta name="twitter:description" content="mysql数据库如何实现在不停机的情况下同步。通常我们在搭建数据库同步的时候由于业务还没有上线，都是采用冷备份的方式（拷贝全量数据文件）的方式进行同步的，但是当业务已经上线，而且数据量还比较大的情况下我们如何实现同步呢，这个就需要借助于mysqldump这个神奇的工具了。注意：此方法由于默认系统未开启二进制日志，所以需要修改参数文件之后重启mysql服务器.不是完全停机！！！我这列出几个关键的步骤">
   
     <link rel="alternative" href="/atom.xml" title="fedocx blog" type="application/atom+xml">
   
@@ -73,10 +64,10 @@ http://blog.liuts.com/
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-python-start" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql-replication" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/03/04/python-start/" class="article-date">
-  <time datetime="2016-03-04T02:56:58.000Z" itemprop="datePublished">2016-03-04</time>
+    <a href="/2016/06/16/mysql-replication/" class="article-date">
+  <time datetime="2016-06-16T05:40:00.000Z" itemprop="datePublished">2016-06-16</time>
 </a>
     
   </div>
@@ -87,7 +78,7 @@ http://blog.liuts.com/
         
   
     <h1 class="article-title" itemprop="name">
-      python start
+      mysql-replication
     </h1>
   
 
@@ -95,38 +86,45 @@ http://blog.liuts.com/
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="http://www.cnblogs.com/vamei/tag/Python/" target="_blank" rel="external">http://www.cnblogs.com/vamei/tag/Python/</a></p>
-<p><a href="http://blog.liuts.com/" target="_blank" rel="external">http://blog.liuts.com/</a></p>
-<p>主要是讲运维自动化的各种架构<br><a href="http://edu.51cto.com/lession/id-53113.html" target="_blank" rel="external">http://edu.51cto.com/lession/id-53113.html</a></p>
-<p>这是python关于监控的linux的一些方法<br><a href="http://blog.jobbole.com/54563/" target="_blank" rel="external">http://blog.jobbole.com/54563/</a></p>
+        <p>mysql数据库如何实现在不停机的情况下同步。通常我们在搭建数据库同步的时候由于业务还没有上线，都是采用冷备份的方式（拷贝全量数据文件）的方式进行同步的，但是当业务已经上线，而且数据量还比较大的情况下我们如何实现同步呢，这个就需要借助于mysqldump这个神奇的工具了。注意：此方法由于默认系统未开启二进制日志，所以需要修改参数文件之后重启mysql服务器.不是完全停机！！！<br>我这列出几个关键的步骤：<br>1、开启二进制日志<br>修改/etc/my.cnf</p>
+<pre><code>server-id=1
+binlog-format=mixed
+log-bin=mysql-bin
+datadir=xxxx
+innodb_flush_log_at_trx_commit=1
+sync_binlog=1
+</code></pre><p>重启mysql数据库服务器<br>2、给复制用户权限</p>
+<pre><code>create user replication@xxx;
+grant replication slave on *.* to replication@xxx identified by &apos;xxx&apos;;
+</code></pre><p>3、备份数据库</p>
+<pre><code>mysqldump --skip-lock-tables --single-transaction --flush-logs --hex-blob --master-data=2 -A &gt; ~/dump.sql
+</code></pre><p>4、获取master的位置</p>
+<pre><code>head dump.sql -n80 | grep &quot;MASTER_LOG_POS&quot;
+</code></pre><p>5、拷贝文件，如果文件太大可以考虑压缩后传输</p>
+<pre><code>scp dump.sql xxx@IP:/root
+</code></pre><p>6、还原</p>
+<pre><code>mysql &lt; dump.sql
+</code></pre><p>7、导入数据库</p>
+<pre><code>change master to master_host=&apos;xx&apos;,master_user=&apos;xx&apos;,master_password=&apos;xx&apos;,master_log_file=&apos;xxx&apos;,master_log_pos=&apos;xxx&apos;;
+start slave
+</code></pre><p>参考：<a href="https://plusbryan.com/mysql-replication-without-downtime" target="_blank" rel="external">https://plusbryan.com/mysql-replication-without-downtime</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/03/04/python-start/" data-id="ciphw7z37000h2rpvwplfviws" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/06/16/mysql-replication/" data-id="ciphw7z6u000z2rpvl4vfb86d" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2016/03/19/django-start/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          django_start
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/02/28/excel-宏编程/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/06/10/openssh-update/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">excel 宏编程</div>
+      <div class="article-nav-title">openssh update</div>
     </a>
   
 </nav>
