@@ -94,6 +94,8 @@ log-bin=mysql-bin
 datadir=xxxx
 innodb_flush_log_at_trx_commit=1
 sync_binlog=1
+expire_logs_days=1
+#由于二进制日志的堆积会造成大量存储空间的占用，可根据需求设置过期时间
 </code></pre><p>重启mysql数据库服务器<br>2、给复制用户权限</p>
 <pre><code>create user replication@xxx;
 grant replication slave on *.* to replication@xxx identified by &apos;xxx&apos;;
@@ -113,7 +115,7 @@ start slave
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/06/16/mysql-replication/" data-id="ciphwet4i000z3wpvnd0ob0lp" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/06/16/mysql-replication/" data-id="ciphwinb5000z4npv46c6onwd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
@@ -391,7 +393,7 @@ This can happen after an upgrade when you change from PAM to password authentica
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/06/10/openssh-update/" data-id="ciphwet2a000p3wpvrkhrota7" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/06/10/openssh-update/" data-id="ciphwin9b000p4npvurql053y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -434,7 +436,7 @@ This can happen after an upgrade when you change from PAM to password authentica
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.fedocx.com/2016/06/02/mysql-日常维护/" data-id="ciphwet3o000w3wpvejun2si5" class="article-share-link">Share</a>
+      <a data-url="http://blog.fedocx.com/2016/06/02/mysql-日常维护/" data-id="ciphwinad000w4npv15rav988" class="article-share-link">Share</a>
       
       
     </footer>
