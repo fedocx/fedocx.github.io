@@ -65,6 +65,58 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-shell脚本脱敏" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/26/shell脚本脱敏/" class="article-date">
+  <time datetime="2016-02-26T05:02:08.000Z" itemprop="datePublished">2016-02-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/26/shell脚本脱敏/">shell脚本脱敏</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在实际生产环境中我们会碰到自动化脚本的编写过程中会写入账号密码的情况，加入此服务器被入侵或者其他人员无意中获得访问此服务器的权限，那么密码就完全暴露在非授权人员的眼前，系统数据安全岌岌可危。<br>所以我们需要对这部分数据进行加密处理.虽然现在的gpg加密软件虽然能够更强的保证数据安全，但是此软件加密后的文件不能够执行，从而丧失了shell脚本的作用。此处选择shc进行文件脱敏，因为此种功能只是将shell源码编译成c语言执行文件，所以严格意义上说并非加密。但是此种方法确实能够实现脱敏。</p>
+<h4 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h4><pre><code>wget http://www.datsi.fi.upm.es/%7Efrosal/sources/shc-3.8.7.tgz
+yum install make gcc
+make test
+make string 
+touch -p  /usr/local/man/man1/
+make install
+</code></pre><h4 id="u4F7F_u7528"><a href="#u4F7F_u7528" class="headerlink" title="使用"></a>使用</h4><p>执行以下命令会生成一个可执行的脚本</p>
+<pre><code>shc -v -f a.sh
+</code></pre><p>执行之后会生成a.sh.x<br>a.sh.x.c,a.sh.x.c是c语言源码文件，a.sh.x是通过c源码文件编译成的二进制文件。<br>通常采取的策略是删除a.sh.x.c文件,a.sh.x是直接可以执行的脚本文件，将这个文件重命名为a.sh就可以了。</p>
+<p>当我们需要把脚本文件拷贝到其他服务器上执行的时候使用上面的语句生成的a.sh.x还不行，还需要添加一个参数-r。<br>-r     Relax security. Make a redistributable binary which executes on different systems running the same operating system.</p>
+<pre><code>shc -v -r -f a.sh
+</code></pre><p>至此脚本脱敏已完成</p>
+<h4 id="u6CE8_u610F"><a href="#u6CE8_u610F" class="headerlink" title="注意"></a>注意</h4><p>由于此种方法只是通过编译的二进制的方式进行加密，所以通过逆向的方式还是有一定几率还原出脚本内容的，所以不算真正的加密。我没有实践过，但是原理上还原出来是可行的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.fedocx.com/2016/02/26/shell脚本脱敏/" data-id="cipsrk9mo000b0dpvcoo64ypd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-mysql-sql-常用语法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/02/26/mysql-sql-常用语法/" class="article-date">
@@ -150,7 +202,7 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.fedocx.com/2016/02/26/mysql-sql-常用语法/" data-id="cipjjcygx000x69pvjqapo7s4" class="article-share-link">Share</a>
+      <a data-url="https://blog.fedocx.com/2016/02/26/mysql-sql-常用语法/" data-id="cipsrk9ok000z0dpvho0k7s6g" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
@@ -293,50 +345,10 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.fedocx.com/2016/02/23/mysqlhotcopy/" data-id="cipjjcygh000u69pvt0d95fwb" class="article-share-link">Share</a>
+      <a data-url="https://blog.fedocx.com/2016/02/23/mysqlhotcopy/" data-id="cipsrk9o8000w0dpvnhnipuvq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-大数据日志分析初想" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/22/大数据日志分析初想/" class="article-date">
-  <time datetime="2016-02-22T06:26:10.000Z" itemprop="datePublished">2016-02-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/22/大数据日志分析初想/">大数据分析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>大数据分析步骤：<br><a href="http://dataunion.org/9805.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">http://dataunion.org/9805.html?utm_source=tuicool&amp;utm_medium=referral</a></p>
-<p>numpy学习<br><a href="http://scipy.github.io/old-wiki/pages/Tentative_NumPy_Tutorial.html" target="_blank" rel="external">http://scipy.github.io/old-wiki/pages/Tentative_NumPy_Tutorial.html</a><br>scipy<br><a href="http://docs.scipy.org/doc/scipy/reference/tutorial/" target="_blank" rel="external">http://docs.scipy.org/doc/scipy/reference/tutorial/</a><br>matplotlib<br><a href="http://nbviewer.jupyter.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-4-Matplotlib.ipynb" target="_blank" rel="external">http://nbviewer.jupyter.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-4-Matplotlib.ipynb</a><br>pandas<br><a href="http://www.gregreda.com/2013/10/26/intro-to-pandas-data-structures/" target="_blank" rel="external">http://www.gregreda.com/2013/10/26/intro-to-pandas-data-structures/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.fedocx.com/2016/02/22/大数据日志分析初想/" data-id="cipjjcyei000069pv8xbc8adt" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bigdata/">bigdata</a></li></ul>
 
     </footer>
   </div>
@@ -360,7 +372,7 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/office/">office</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigdata/">bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/office/">office</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/techguide/">techguide</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客编辑/">博客编辑</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -369,7 +381,7 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 15px;">blog</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/office/" style="font-size: 15px;">office</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
+      <a href="/tags/bigdata/" style="font-size: 10px;">bigdata</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/office/" style="font-size: 13.33px;">office</a> <a href="/tags/oracle/" style="font-size: 16.67px;">oracle</a> <a href="/tags/python/" style="font-size: 13.33px;">python</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/techguide/" style="font-size: 10px;">techguide</a> <a href="/tags/博客编辑/" style="font-size: 10px;">博客编辑</a>
     </div>
   </div>
 
@@ -378,7 +390,7 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -388,6 +400,10 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/06/24/oracle-connect/">oracle_connect</a>
+          </li>
         
           <li>
             <a href="/2016/06/16/mysql-replication/">mysql-replication</a>
@@ -403,10 +419,6 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
         
           <li>
             <a href="/2016/05/23/screen/">screen</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/19/django-start/">django_start</a>
           </li>
         
       </ul>
