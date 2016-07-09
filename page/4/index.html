@@ -65,6 +65,121 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-excel合并" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/28/excel合并/" class="article-date">
+  <time datetime="2016-02-28T00:22:50.000Z" itemprop="datePublished">2016-02-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/28/excel合并/">excel合并</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、把需要合并的excel表格文档放到同一个文件夹里<br>2、新建一个“数据合并.xlsx“文档<br>3、打开“数据合并.xlsx“文档，在”Sheet1“工作表的地方右键→查看代码（快捷键：“Alt+F11”，尽量选用快)进入到microsoft Visual Basic for Applications窗口<br>4、双击工程资源管理器里面的sheet1，在右侧的代码区粘贴如下代码：</p>
+<pre><code>Sub 合并当前目录下所有工作簿的全部工作表() 
+
+Dim MyPath, MyName, AWbName 
+
+Dim Wb As Workbook, WbN As String 
+
+Dim G As Long 
+
+Dim Num As Long 
+
+Dim BOX As String 
+
+Application.ScreenUpdating = False 
+
+MyPath = ActiveWorkbook.Path 
+
+MyName = Dir(MyPath &amp; &quot;\&quot; &amp; &quot;*.csv&quot;) 
+
+AWbName = ActiveWorkbook.Name 
+
+Num = 0 
+
+Do While MyName &lt;&gt; &quot;&quot; 
+
+If MyName &lt;&gt; AWbName Then 
+
+Set Wb = Workbooks.Open(MyPath &amp; &quot;\&quot; &amp; MyName) 
+
+Num = Num + 1 
+IF Num=1  Then
+With Workbooks(1).ActiveSheet 
+
+
+For G = 1 To Sheets.Count 
+
+Wb.Sheets(G).UsedRange.Copy .Cells(.Range(&quot;A65536&quot;).End(xlUp).Row  , 1) 
+
+Next 
+
+WbN = WbN &amp; Chr(13) &amp; Wb.Name 
+
+Wb.Close False 
+
+End With 
+
+Else
+With Workbooks(1).ActiveSheet 
+
+
+For G = 1 To Sheets.Count 
+
+Wb.Sheets(G).UsedRange.Copy .Cells(.Range(&quot;A2&quot;).End(xlDown).Row +1   , 1) 
+
+Next 
+
+WbN = WbN &amp; Chr(13) &amp; Wb.Name 
+
+Wb.Close False 
+
+End With 
+End if
+
+End If 
+
+MyName = Dir 
+
+Loop 
+
+Range(&quot;A1&quot;).Select 
+
+Application.ScreenUpdating = True 
+
+MsgBox &quot;共合并了&quot; &amp; Num &amp; &quot;个工作薄下的全部工作表。如下：&quot; &amp; Chr(13) &amp; WbN,vbInformation, &quot;提示&quot; 
+
+End Sub 
+</code></pre><p>5、运行→运行子过程/用户窗体（或者直接点击运行按钮，快捷键：F5），即可合并所有Excel表格到”数据合并.xlsx“文档的Sheet1工作表里面<br>注意：如果合并出现问题可能是因为代码部分excel文件后缀不同导致，修改代码MyName部分即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.fedocx.com/2016/02/28/excel合并/" data-id="ciqfflwm10016yfpvhdardors" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/office/">office</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-shell脚本脱敏" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/02/26/shell脚本脱敏/" class="article-date">
@@ -105,7 +220,7 @@ make install
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.fedocx.com/2016/02/26/shell脚本脱敏/" data-id="cipsrk9mo000b0dpvcoo64ypd" class="article-share-link">Share</a>
+      <a data-url="https://blog.fedocx.com/2016/02/26/shell脚本脱敏/" data-id="ciqfflwjv000byfpvvblk9dcc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
@@ -202,150 +317,7 @@ SELECT * FROM java  STRAIGHT_JOIN  mysql ON java.name=mysql.name;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.fedocx.com/2016/02/26/mysql-sql-常用语法/" data-id="cipsrk9ok000z0dpvho0k7s6g" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-mysqlhotcopy" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/02/23/mysqlhotcopy/" class="article-date">
-  <time datetime="2016-02-23T06:22:19.000Z" itemprop="datePublished">2016-02-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/23/mysqlhotcopy/">mysqlhotcopy</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天有空尝试了一下MYSQLHOTCOPY这个快速热备MYISAM引擎的工具。<br>(本文是针对单个服务器的情况，以后将会加入多服务器相关操作)<br>他和MYSQLDUMP的比较：<br>1、前者是一个快速文件意义上的COPY，后者是一个数据库端的SQL语句集合。<br>2、前者只能运行在数据库目录所在的机器上，后者可以用在远程客户端。<br>3、相同的地方都是在线执行LOCK TABLES 以及 UNLOCK TABLES<br>4、前者恢复只需要COPY备份文件到源目录覆盖即可，后者需要倒入SQL文件到原来库中。(source 或者.或者 mysql &lt; 备份文件)<br>用MYSQLHOTCOPY备份的步骤：<br>1、有没有PERL-DBD模块安装<br>我的机器上：<br>[root@localhost data]# rpm -qa |grep perl-DBD | grep MySQL</p>
-<p>perl-DBD-MySQL-3.0007-1.fc6<br>2、在数据库段分配一个专门用于备份的用户</p>
-<pre><code>mysql&gt; grant select,reload,lock tables on *.* to &apos;hotcopyer&apos;@&apos;localhost&apos; identified by &apos;123456&apos;;
-Query OK, 0 rows affected (0.00 sec)
-
-mysql&gt; flush privileges;
-Query OK, 0 rows affected (0.00 sec)
-</code></pre><p>3、在/etc/my.cnf或者登陆用户的个人主文件.my.cnf里面添加</p>
-<pre><code>[mysqlhotcopy]
-interactive-timeout
-user=hotcopyer
-password=123456
-port=3306
-</code></pre><p>4、开始备份。</p>
-<pre><code>[root@localhost ~]# mysqlhotcopy t_girl t_girl_new
-
-Locked 4 tables in 0 seconds.
-Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`id`, `t_girl`.`parent`) in 0 seconds.
-Copying 22 files...
-Copying indices for 0 files...
-Unlocked tables.
-mysqlhotcopy copied 4 tables (22 files) in 5 seconds (5 seconds overall).
-</code></pre><p>备份后的目录：</p>
-<pre><code>[root@localhost data]# du -h | grep t_girl
-
-213M ./t_girl
-213M ./t_girl_copy
-[root@localhost ~]#
-</code></pre><p>5、MYSQLHOTCOPY用法详解。<br>1)、mysqlhotcopy 原数据库名，新数据库名</p>
-<pre><code>[root@localhost ~]# mysqlhotcopy t_girl t_girl_new
-
-Locked 4 tables in 0 seconds.
-Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`id`, `t_girl`.`parent`) in 0 seconds.
-Copying 22 files...
-Copying indices for 0 files...
-Unlocked tables.
-mysqlhotcopy copied 4 tables (22 files) in 5 seconds (5 seconds overall).
-</code></pre><p>2)、mysqlhotcopy 原数据库名，备份的目录</p>
-<pre><code>[root@localhost ~]# mysqlhotcopy t_girl /tmp/
-
-Locked 4 tables in 0 seconds.
-Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`id`, `t_girl`.`parent`) in 0 seconds.
-Copying 22 files...
-Copying indices for 0 files...
-Unlocked tables.
-mysqlhotcopy copied 4 tables (22 files) in 6 seconds (6 seconds overall).
-</code></pre><p>3)、对单个表支持正则表达式 (除了id 表外)</p>
-<pre><code>[root@localhost data]# mysqlhotcopy t_girl./~id/
-
-Using copy suffix &apos;_copy&apos;
-Locked 3 tables in 0 seconds.
-Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`parent`) in 0 seconds.
-Copying 19 files...
-Copying indices for 0 files...
-Unlocked tables.
-mysqlhotcopy copied 3 tables (19 files) in 6 seconds (6 seconds overall).
-[root@localhost data]#
-</code></pre><p>4)、可以把记录写到专门的表中。具体察看帮助。</p>
-<pre><code>perldoc mysqlhostcopy
-
-mysql&gt; create database hotcopy;
-Query OK, 1 row affected (0.03 sec)
-mysql&gt; use hotcopy
-Database changed
-mysql&gt; create table checkpoint(time_stamp timestamp not null,src varchar(32),dest varchar(60), msg varchar(255));
-Query OK, 0 rows affected (0.01 sec)
-同时记得给hotcopyer用户权限。
-mysql&gt; grant insert on hotcopy.checkpoint to hotcopyer@&apos;localhost&apos;;
-Query OK, 0 rows affected (0.00 sec)
-
-mysql&gt; flush privileges;
-Query OK, 0 rows affected (0.00 sec)
-
-mysql&gt; \q
-Bye
-</code></pre><p>重复第三步的操作</p>
-<pre><code>[root@localhost ~]# mysqlhotcopy t_girl./~id/ --allowold --checkpoint hotcopy.checkpoint
-
-Using copy suffix &apos;_copy&apos;
-Existing hotcopy directory renamed to &apos;/usr/local/mysql/data/t_girl_copy_old&apos;
-Locked 3 tables in 0 seconds.
-Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`parent`) in 0 seconds.
-Copying 19 files...
-Copying indices for 0 files...
-Unlocked tables.
-mysqlhotcopy copied 3 tables (19 files) in 12 seconds (13 seconds overall).
-</code></pre><p>默认保存在数据目录下/t_girl_copy/<br>看看记录表。</p>
-<pre><code>mysql&gt; use hotcopy;
-Database changed
-mysql&gt; select * from checkpoint;
-+---------------------+--------+-----------------------------------+-----------+
-| time_stamp | src | dest | msg |
-+---------------------+--------+-----------------------------------+-----------+
-| 2008-03-11 14:44:58 | t_girl | /usr/local/mysql/data/t_girl_copy | Succeeded |
-+---------------------+--------+-----------------------------------+-----------+
-1 row in set (0.00 sec)
-</code></pre><p>5)、支持增量备份。</p>
-<pre><code>[root@localhost ~]# mysqlhotcopy t_girl./~id/ --allowold --checkpoint hotcopy.checkpoint --addtodest t_girl_new
-
-Locked 3 tables in 0 seconds.
-Flushed tables (`t_girl`.`category`, `t_girl`.`category_part`, `t_girl`.`parent`) in 0 seconds.
-Copying 19 files...
-Copying indices for 0 files...
-Unlocked tables.
-mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.fedocx.com/2016/02/23/mysqlhotcopy/" data-id="cipsrk9o8000w0dpvnhnipuvq" class="article-share-link">Share</a>
+      <a data-url="https://blog.fedocx.com/2016/02/26/mysql-sql-常用语法/" data-id="ciqfflwlj000zyfpvqsoij5d7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
@@ -390,7 +362,7 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -400,6 +372,10 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/07/10/aria2迅雷下载/">aria2迅雷下载</a>
+          </li>
         
           <li>
             <a href="/2016/06/24/oracle-connect/">oracle_connect</a>
@@ -415,10 +391,6 @@ mysqlhotcopy copied 3 tables (19 files) in 7 seconds (7 seconds overall)
         
           <li>
             <a href="/2016/06/02/mysql-日常维护/">mysql-日常维护</a>
-          </li>
-        
-          <li>
-            <a href="/2016/05/23/screen/">screen</a>
           </li>
         
       </ul>

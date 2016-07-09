@@ -65,6 +65,43 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-aria2迅雷下载" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/10/aria2迅雷下载/" class="article-date">
+  <time datetime="2016-07-09T17:14:33.000Z" itemprop="datePublished">2016-07-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/10/aria2迅雷下载/">aria2迅雷下载</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://blog.csdn.net/sonsie007/article/details/18942943" target="_blank" rel="external">http://blog.csdn.net/sonsie007/article/details/18942943</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.fedocx.com/2016/07/10/aria2迅雷下载/" data-id="ciqfflwmg001dyfpv1va45ikq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-oracle-connect" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/06/24/oracle-connect/" class="article-date">
@@ -92,7 +129,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.fedocx.com/2016/06/24/oracle-connect/" data-id="cipsrk9nm000p0dpvwnow8dma" class="article-share-link">Share</a>
+      <a data-url="https://blog.fedocx.com/2016/06/24/oracle-connect/" data-id="ciqfflwko000pyfpvsw6u9l6y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oracle/">oracle</a></li></ul>
@@ -154,288 +191,10 @@ start slave
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.fedocx.com/2016/06/16/mysql-replication/" data-id="cipsrk9oq00110dpviyss6a6t" class="article-share-link">Share</a>
+      <a data-url="https://blog.fedocx.com/2016/06/16/mysql-replication/" data-id="ciqfflwlr0011yfpvrplirrgd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-openssh-update" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/06/10/openssh-update/" class="article-date">
-  <time datetime="2016-06-09T19:59:12.000Z" itemprop="datePublished">2016-06-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/10/openssh-update/">openssh update</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>方法:注意，源码安装的时候如果之前有编译过要执行make clean<br>安装zlib</p>
-<pre><code>./configure --prefix=/usr/local/zlib
-make &amp;&amp; make install
-</code></pre><p>安装openssl</p>
-<pre><code>./config --prefix=/usr/local/openssl --shared  --openssldir=/usr/local/openssl
-make
-make test
-make install
-</code></pre><p>修改/etc/ld.so.conf,如果不执行下面步骤会在openssh编译的时候出现openssl head不匹配的错误<br>add /usr/local/ssl/lib to /etc/ld.so.conf and type </p>
-<pre><code>vim /etc/ld.so.conf #加入下面行
-    /usr/local/openssl/lib
-ldconfig
-</code></pre><p>修改/etc/profile</p>
-<pre><code>export PATH=/usr/local/openssl/bin:/usr/local/openssh-7.2/bin:/usr/local/openssh7.2/sbin:$PATH
-source /etc/profile
-</code></pre><p>安装openssh</p>
-<pre><code>./configure --prefix=/usr/local/openssh7.1 --sysconfdir=/etc/ssh --with-pam --with-ssl-dir=/usr/local/openssl --with-md5-passwords --mandir=/usr/share/man --with-zlib=/usr/local/zlib 
-make &amp;&amp; make install
-</code></pre><p>参考资料：<br><a href="http://www.randombio.com/linuxsetup54.html" target="_blank" rel="external">http://www.randombio.com/linuxsetup54.html</a><br> Installing OpenSSL and OpenSSH</p>
-<p>This document describes how to install OpenSSH (Secure Shell) and OpenSSL (Secure Sockets Layer) on Linux. SSL is a general security library that provides encryption for Web services, VPNs, and other communication software. SSH is a secure replacement for telnet and ftp.</p>
-<p>OpenSSL</p>
-<p>Although the standard OpenSSL installation will work for some purposes, if you plan to install OpenSSH you need to install OpenSSL twice, once for the static libraries and once to get the shared ones. Otherwise, the OpenSSH configure script may complain about headers not matching the library or OpenSSL headers not being found. It’s important to specify the paths when compiling OpenSSL to avoid these errors so you are certain where everything is being installed.</p>
-<p>First, install libz, which can be downloaded from the OpenSSL site, if you don’t already have it.</p>
-<p>Second, install openssl:</p>
-<pre><code>./config --prefix=/usr/local --openssldir=/usr/local/ssl
-make
-make test
-make install  (as root)
-./config shared --prefix=/usr/local --openssldir=/usr/local/ssl
-make clean
-make 
-make install   (as root)
-cd /usr/local/ssl/lib
-cp * /usr/lib
-</code></pre><p>To avoid getting the following error later when you compile OpenSSH:</p>
-<pre><code>configure: error: Your OpenSSL headers do 
-not match your library
-</code></pre><p>copy all the SSL include files everywhere:</p>
-<pre><code>cd /home/tjnelson/openssl/openssl-*   
-cd include/openssl
-cp * /usr/include
-cp * /usr/local/ssl/include
-cp * /usr/local/ssl/include/openssl
-</code></pre><p>and then add /usr/local/ssl/lib to /etc/ld.so.conf and type</p>
-<pre><code>lcdonfig 
-</code></pre><p>(as root). This is essential in avoiding “header not found” and “headers do not match your library” errors when you go trying to make OpenSSH.</p>
-<p>If the error persists, check config.log to find out what OpenSSH thinks is happening. Sometimes, the actual error has nothing to do with the error message. Or try these commands:</p>
-<pre><code>cd /home/tjnelson/openssl/openssl-*/include/openssl
-cp * /usr/local/ssl/include
-cd /home/tjnelson/openssl/openssl-*
-cp lib* /usr/local/ssl/lib/
-cp lib* /usr/lib/
-ldconfig
-cd /home/tjnelson/openssl/openssl-*/include/openssl 
-cp * /usr/include/
-cp * /usr/local/ssl/include/
-cp * /usr/local/ssl/include/openssl
-</code></pre><p>Sometimes, however, libssl complains about something called “pod2man” and refuses to install:</p>
-<p>   No working pod2man found.  Consider installing a new version.<br>   As a workaround, we’ll use a bundled old copy of pod2man.pl.<br>   sh: util/pod2man.pl: No such file or directory</p>
-<p>In that case, you must install it manually:</p>
-<pre><code>cp libssl.a /usr/local/ssl/lib/
-cp *.a /usr/local/ssl/lib/
-cp *.so* /usr/local/ssl/lib/
-cd include/openssl
-mkdir /usr/include/openssl/
-cp * /usr/include/openssl/
-cp * /usr/local/ssl/include/openssl/
-</code></pre><p>In many cases, if you upgrade OpenSSL you also have to rebuild OpenSSH, or you will get a message like:</p>
-<p>Starting SSH daemon<br>OpenSSL version mismatch. Built against 907002,<br>you have 90703f<br>startproc:  exit status of /usr/sbin/sshd: 255</p>
-<p>See below for the procedure.</p>
-<p>OpenSSH</p>
-<p>OpenSSH requires a working installation of SSL. If OpenSSL is not already installed, install it as described above before proceeding. For OpenSSH version 3.4 or above, it is necessary to create a new user named “sshd” and give a safe place to chroot to. Depending on your system, you may also need to install TCP Wrappers and zlib.</p>
-<p>Preparation</p>
-<pre><code>Add &apos;sshd&apos; user: If you haven&apos;t already done so, create the new user.
-
-mkdir /var/empty
-chown root:sys /var/empty
-chmod 700 /var/empty
-groupadd sshd
-useradd -g sshd -c &apos;sshd privsep&apos; -d /var/empty \
-  -s /bin/false sshd
-
-zlib: On some systems, it&apos;s necessary to upgrade zlib before OpenSSH will compile.
-
-PAM (not recommended): Use of PAM is no longer recommended. If you want to use PAM, the PAM headers and the &quot;--with-pam&quot; configuration option are needed. DO NOT INSTALL PAM unless you are sure of what you&apos;re doing! Carelessly installing PAM could trash your system! Make sure your system really uses PAM before using this option. If you need PAM to install ssh, a safe precaution is to install the headers only, and copy the libraries and header files manually into the ssh directory.
-
-PAM_TTY_KLUDGE used to be required, but is no longer necessary, because it is now defined automatically in linux. 
-</code></pre><p>Install TCP Wrappers</p>
-<p>If your system uses tcpd, and you don’t have libwrap, install Wietse Venema’s IPv4 tcp-wrappers . There are several versions of tcpd. Two are from porcupine.org, and one of these is for IPv6. Do not install the tcp-wrappers for IPv6 or tcpd from other locations. They will not work. (This step is only needed if you compile ssh with TCP Wrappers.)</p>
-<p>Unfortunately, libwrap software is quite old and no longer compiles in Linux without modification. It also uses the old /etc/inetd.conf file, instead of /etc/xinetd.d. Normally, this would mean a lot of messy renaming of your internet daemons. But luckily, compiling sshd with libwrap avoids this problem, and sshd can use tcp-wrappers without all that mucking around with tcpd.</p>
-<p>Solution: Edit Makefile and set the variable REAL_DAEMON_DIR to match the location of your existing tcpd.<br>Then edit the file percent_m.c and change</p>
-<p>extern char *sys_errlist[];</p>
-<p>to</p>
-<p> extern <strong>const char *</strong>const sys_errlist[];</p>
-<p>Edit the file scaffold.c and remove line 28 where it says</p>
-<p> extern char *malloc();</p>
-<p>make<br>make install<br>If “make install” doesn’t work, do the following:<br>copy tcpd.h to /usr/local/include/<br>copy tcpd to /usr/sbin/<br>copy libwrap.a to /usr/local/lib/<br>make sure /usr/local/lib is in your /etc/ld.so.conf file<br>ldconfig</p>
-<p>Patch OpenSSH to fix hang-on-exit bug (Optional)</p>
-<p>Note: this problem seems to have finally been fixed, and it is no longer necessary to patch openssh. This information applies to earlier versions.<br>The ssh client in OpenSSH hangs if a command is started in background. For example, if you use nohup to start a batch file while you’re logged in over ssh, the ssh client will hang when you logout, and must be killed manually. The solution involves editing two files in the OpenSSH source code before installing.</p>
-<p>File 1: clientloop.c<br>In the file clientloop.c near line 1192, in the function client_input_channel_req after the line</p>
-<pre><code>success = 1;
-</code></pre><p>add the line</p>
-<pre><code>quit_pending=1; 
-</code></pre><p>Here is a patch file:</p>
-<p>— clientloop.c.bak    Sun Feb 16 14:58:30 2003<br>+++ clientloop.c        Sun Feb 16 14:58:37 2003<br>@@ -1214,6 +1214,7 @@<br>        } else if (strcmp(rtype, “exit-status”) == 0) {<br>                success = 1;<br>                exit_status = packet_get_int();<br>+quit_pending=1;<br>                packet_check_eom();<br>        }<br>        if (reply) { </p>
-<p>File 2: session.c<br>The clientloop.c fix solves some cases of ssh hanging, and allows ssh to exit cleanly for nohup’ed processes. However, in most cases it’s also necessary to modify session.c as described by Jani Jaakkola:</p>
-<p>— session.c.bak       Sun Feb 16 21:22:20 2003<br>+++ session.c   Sun Feb 16 21:27:44 2003<br>@@ -1705,6 +1705,21 @@<br>        debug(“session_exit_message: session %d channel %d pid %d”,<br>            s-&gt;self, s-&gt;chanid, s-&gt;pid);</p>
-<p>+</p>
-<ul>
-<li>/<em> Add hang-on-exit bug workaround </em>/</li>
-<li>if (s-&gt;ttyfd != -1 &amp;&amp; c-&gt;istate == CHAN_INPUT_OPEN) {</li>
-<li>fd_set dummy_read, dummy_write;</li>
-<li>FD_ZERO(&amp;dummy_read);</li>
-<li>FD_SET(s-&gt;ttyfd,&amp;dummy_read);</li>
-<li>FD_ZERO(&amp;dummy_write);</li>
-<li>channel_after_select(&amp;dummy_read,&amp;dummy_write);</li>
-<li>verbose(“hang-on-exit-workaround applied”);</li>
-<li>chan_read_failed(c);</li>
-<li>}</li>
-<li>+<br>   if (WIFEXITED(status)) {<pre><code>channel_request_start(s-&gt;chanid, &quot;exit-status&quot;, 0);
-packet_put_int(WEXITSTATUS(status));
-</code></pre></li>
-</ul>
-<p>Patch #2 - Add delay after unsuccessful login (Optional)</p>
-<p>This patch adds a delay after unsuccessful login. This makes it inconvenient for attackers to send dictionary lists of common passwords, because it slows their dictionary attack down by a factor of 1000 or more. (Notice that it will not affect attackers who try only a single password per user).</p>
-<p>File 1: auth2.c<br>In function input_userauth_request(), change:</p>
-<p>debug(“attempt %d failures %d”, authctxt-&gt;attempt, authctxt-&gt;failures);</p>
-<p>to</p>
-<p>debug(“attempt %d failures %d”, authctxt-&gt;attempt, authctxt-&gt;failures);<br>if(authctxt-&gt;failures &gt; 2) sleep(10);</p>
-<p>Patch #3 - Add delay before getting password (Optional)</p>
-<p>This patch adds a delay before any login, making it inconvenient for attackers to send dictionary lists of common passwords. The idea was from this site.</p>
-<p>In file auth-passwd.c, add a sleep() function near the beginning of the auth_passwd() function, right after the declarations, like so:</p>
-<p>int<br>auth_password(Authctxt <em>authctxt, const char </em>password)<br>{<br>        struct passwd * pw = authctxt-&gt;pw;<br>        int result, ok = authctxt-&gt;valid;</p>
-<p>#if defined(USE_SHADOW) &amp;&amp; defined(HAS_SHADOW_EXPIRE)<br>        static int expire_checked = 0;</p>
-<p>#endif </p>
-<p>/<em> Password authentication delay </em>/<br>sleep(4);</p>
-<p>Compile and install OpenSSH</p>
-<p>In the OpenSSH directory, type</p>
-<p>./configure –prefix=/usr </p>
-<p>or</p>
-<p>./configure –prefix=/usr –with-tcp-wrappers</p>
-<p>then</p>
-<p>make<br>su<br>make install</p>
-<p>Restart sshd, samba, and apache; otherwise these and possibly other applications may crash silently.</p>
-<p>cd /etc/rc.d<br>./apache restart<br>./sshd restart<br>./smb restart</p>
-<p>Note: sshd sometimes tries to restart before the port is closed, giving “failed” message. In this case, use the commands:</p>
-<p>./sshd stop<br>./sshd start</p>
-<p>Edit sshd_config and ssh_config as needed. Be sure to edit the correct sshd_config. This file could be in /etc, /usr/etc/, /etc/ssh, and in a variety of other places. If you’re using PAM, edit /etc/pam.d/sshd as well.</p>
-<p>Problems</p>
-<pre><code>If &apos;configure&apos; can&apos;t find ssl, change the configure command to:
-
-./configure --prefix=/usr --with-ssl-dir=\
-/usr/local/ssl --with-tcp-wrappers
-
-Sometimes compilation of openssh bombs out with the following error messages:
-
-sshd.c:1660: error: storage size of req isn&apos;t known
-sshd.c:1663: warning: implicit declaration of function fromhost
-sshd.c:1660: warning: unused variable req
-
-Another frequent problem is that configure bombs out with the message:
-
-configure: error: Your OpenSSL headers do not match your library
-
-The easiest solution is to go to your openssl directory and type:
-
-make install
-cd include/openssl
-cp * /usr/include/openssl/
-cp * /usr/local/ssl/include/openssl/
-
-Compile openssh, using the following command line, and substitute the appropriate path after --with-ssl-dir :
-
-./configure --prefix=/usr --with-tcp-wrappers \
---with-ssl-dir=/usr/local/ssl
-make
-make install
-
-If it says:
-
-Connecting to carbon...
- OpenSSL version mismatch. Built against 90603f, you have 90607f
- Couldn&apos;t read packet: Connection reset by peer
-
-Get rid of your old libcrypto libraries in /usr/lib and rerun ldconfig:
-
-cd /usr/local/ssl/lib
-cp * /usr/lib/
-ldconfig
-
-Then rebuild and reinstall openssh (make clean; make; make install), and restart sshd.
-Sometimes ssh has the following connection problem:
-On client
-
-Request for subsystem &apos;sftp&apos; failed on channel 0
-Couldn&apos;t read packet: Connection reset by peer
-
-On server
-
-sshd[7079]: Accepted password for tjnelson from 63.127.146.196 port 32777 ssh2
-sshd[7079]: subsystem request for sftp
-sshd[7079]: error: subsystem: cannot stat /usr/local/libexec/sftp-server: 
-No such file or directory
-sshd[7079]: subsystem request for sftp failed, subsystem not found
-
-To solve this problem, do the following:
-Edit /etc/ssh/sshd_config and add:
-
-Subsystem       sftp    /usr/local/libexec/sftp-server
-Protocol 2
-
-Create /usr/libexec and make a link to sftp-server. For some reason sshd sometimes looks there instead of the path specified in its configuration file.
-
-mkdir /usr/libexec
-cd /usr/libexec
-ln -s /usr/lib/ssh/sftp-server sftp-server
-
-Stop and start sshd (don&apos;t restart, because the port takes a while to close).
-
-cd /etc/rc.d
-./sshd stop
-./sshd restart
-
-If it says:
-
-checking for socklen_t equivalent... configure: 
-error: Cannot find a type to use in place of socklen_t
-
-this means your computer is totally screwed, and you should take it out back and shoot it.
-If it says:
-
-sshd re-exec requires execution with an absolute path
-
-The startup script needs to be modified to include the full path of sshd.
-If it says:
-
-Permission denied (publickey,keyboard-interactive).
-
-This can happen after an upgrade when you change from PAM to password authentication. Edit /etc/ssh/sshd_conf and change PasswordAuthentication to yes. 
-</code></pre><p>Warning about sftp:<br>The sftp program doesn’t check whether the file is transferred correctly. If it is not possible to create the file at the remote destination, sftp may silently fail to transfer the file. </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.fedocx.com/2016/06/10/openssh-update/" data-id="cipsrk9nq000r0dpv9bqw6te7" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
 
     </footer>
   </div>
@@ -477,7 +236,7 @@ This can happen after an upgrade when you change from PAM to password authentica
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -487,6 +246,10 @@ This can happen after an upgrade when you change from PAM to password authentica
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/07/10/aria2迅雷下载/">aria2迅雷下载</a>
+          </li>
         
           <li>
             <a href="/2016/06/24/oracle-connect/">oracle_connect</a>
@@ -502,10 +265,6 @@ This can happen after an upgrade when you change from PAM to password authentica
         
           <li>
             <a href="/2016/06/02/mysql-日常维护/">mysql-日常维护</a>
-          </li>
-        
-          <li>
-            <a href="/2016/05/23/screen/">screen</a>
           </li>
         
       </ul>
